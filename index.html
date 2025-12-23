@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Misoto | Links</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -10,29 +10,31 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Courier New', 'Segoe UI', monospace;
+            font-family: 'Courier New', monospace;
             -webkit-tap-highlight-color: transparent;
         }
 
         :root {
-            --main-green: #00ff00;
-            --main-purple: #9d00ff;
-            --main-blue: #0088ff;
-            --dark-bg: #0a0a0f;
-            --darker-bg: #050508;
-            --card-bg: rgba(10, 10, 20, 0.85);
-            --glow-color: rgba(157, 0, 255, 0.3);
-            --text-glow: rgba(0, 255, 0, 0.5);
+            --verde: #00ff00;
+            --roxo: #9d00ff;
+            --azul: #0088ff;
+            --fundo-escuro: #0a0a0f;
+            --fundo-mais-escuro: #050508;
+            --card: rgba(10, 10, 20, 0.85);
+            --brilho: rgba(157, 0, 255, 0.3);
         }
 
-        /* Overlay inicial */
-        #startOverlay {
+        .pausado * {
+            animation-play-state: paused !important;
+        }
+
+        #inicio {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: var(--dark-bg);
+            background: var(--fundo-escuro);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -40,28 +42,23 @@
             cursor: pointer;
         }
 
-        .start-message {
-            color: var(--main-purple);
+        .mensagem-inicio {
+            color: var(--roxo);
             font-size: 1.2rem;
             text-transform: uppercase;
             letter-spacing: 2px;
-            animation: pulse 2s infinite;
+            animation: pulsar 2s infinite;
         }
 
         body {
-            background: var(--dark-bg);
+            background: var(--fundo-escuro);
             color: #e0e0ff;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             padding: 20px;
             position: relative;
-            overflow-x: hidden;
         }
 
-        /* Wallpaper com efeito glitch */
-        .wallpaper {
+        .fundo {
             position: fixed;
             top: 0;
             left: 0;
@@ -70,15 +67,13 @@
             background-image: url('https://raw.githubusercontent.com/Misoto7/misoto/refs/heads/main/2025-12-23-04-47-33.png');
             background-size: cover;
             background-position: center;
-            background-repeat: no-repeat;
             opacity: 0.35;
             z-index: 1;
-            animation: glitchEffect 8s infinite linear;
-            filter: hue-rotate(290deg) saturate(1.8) brightness(0.9);
+            filter: hue-rotate(290deg) saturate(1.8);
+            animation: fundoAnim 20s infinite linear;
         }
 
-        /* Scanlines */
-        .scanlines {
+        .linhas {
             position: fixed;
             top: 0;
             left: 0;
@@ -87,16 +82,16 @@
             background: linear-gradient(
                 to bottom,
                 transparent 50%,
-                rgba(157, 0, 255, 0.05) 50%
+                rgba(157, 0, 255, 0.03) 50%
             );
             background-size: 100% 4px;
             pointer-events: none;
             z-index: 2;
-            animation: scan 8s linear infinite;
+            opacity: 0.5;
+            animation: varrer 12s linear infinite;
         }
 
-        /* Imagem de anime */
-        .anime-girl {
+        .anime {
             position: fixed;
             bottom: 0;
             left: 0;
@@ -110,44 +105,43 @@
             pointer-events: none;
         }
 
-        .anime-girl img {
+        .anime.mostrar {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .anime img {
             width: 100%;
             height: auto;
             display: block;
         }
 
-        .anime-girl.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Container principal */
-        .container {
+        .principal {
             max-width: 500px;
             width: 100%;
-            background: var(--card-bg);
+            background: var(--card);
             border-radius: 12px;
             padding: 30px;
             position: relative;
             z-index: 10;
             border: 1px solid rgba(157, 0, 255, 0.3);
             box-shadow: 
-                0 0 30px var(--glow-color),
+                0 0 30px var(--brilho),
                 inset 0 0 20px rgba(157, 0, 255, 0.1);
             backdrop-filter: blur(10px);
             overflow: hidden;
             display: none;
             opacity: 0;
             transform: translateY(20px);
+            margin: 0 auto;
         }
 
-        .container.visible {
+        .principal.mostrar {
             opacity: 1;
             transform: translateY(0);
         }
 
-        /* Borda animada */
-        .container::before {
+        .principal::before {
             content: '';
             position: absolute;
             top: 0;
@@ -156,14 +150,13 @@
             height: 2px;
             background: linear-gradient(90deg, 
                 transparent, 
-                var(--main-purple), 
-                var(--main-green), 
+                var(--roxo), 
+                var(--verde), 
                 transparent);
-            animation: borderFlow 3s linear infinite;
+            animation: bordaAnim 6s linear infinite;
         }
 
-        /* Header */
-        .header {
+        .topo {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -172,82 +165,84 @@
             border-bottom: 1px solid rgba(157, 0, 255, 0.3);
         }
 
-        .title {
+        .titulo {
             font-size: 1.3rem;
             font-weight: bold;
-            color: var(--main-purple);
+            color: var(--roxo);
             text-shadow: 0 0 10px rgba(157, 0, 255, 0.5);
             letter-spacing: 2px;
         }
 
-        .status {
+        .estado {
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .dot {
+        .ponto {
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: var(--main-purple);
-            animation: pulse 1.5s infinite;
-            box-shadow: 0 0 10px var(--main-purple);
+            background: var(--roxo);
+            animation: pulsar 3s infinite;
+            box-shadow: 0 0 10px var(--roxo);
         }
 
-        /* Player de música */
-        .music-player {
+        .player {
             background: rgba(5, 5, 15, 0.9);
             border-radius: 8px;
             padding: 15px;
             margin-bottom: 25px;
             border: 1px solid rgba(157, 0, 255, 0.2);
-            position: relative;
-            overflow: hidden;
             opacity: 0;
             transform: translateY(10px);
             transition: opacity 0.6s ease 0.3s, transform 0.6s ease 0.3s;
         }
 
-        .player-header {
+        .player-topo {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
         }
 
-        .player-title {
-            color: var(--main-purple);
+        .player-titulo {
+            color: var(--roxo);
             font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
-        .visualizer {
+        .visual {
             display: flex;
             align-items: center;
             gap: 3px;
             height: 20px;
         }
 
-        .bar {
+        .barra {
             width: 4px;
-            background: var(--main-purple);
+            background: var(--roxo);
             border-radius: 2px;
-            animation: barPulse 0.5s ease-in-out infinite;
-            animation-play-state: running;
+            opacity: 0.3;
+            transform: scaleY(0.3);
+            transition: transform 0.3s ease, opacity 0.3s ease;
         }
 
-        .bar:nth-child(1) { animation-delay: 0.1s; height: 8px; }
-        .bar:nth-child(2) { animation-delay: 0.2s; height: 12px; }
-        .bar:nth-child(3) { animation-delay: 0.3s; height: 16px; }
-        .bar:nth-child(4) { animation-delay: 0.4s; height: 20px; }
-        .bar:nth-child(5) { animation-delay: 0.5s; height: 16px; }
-        .bar:nth-child(6) { animation-delay: 0.6s; height: 12px; }
-        .bar:nth-child(7) { animation-delay: 0.7s; height: 8px; }
+        .barra.ativa {
+            animation: barraAnim 0.8s ease-in-out infinite;
+            opacity: 0.7;
+        }
 
-        /* Controles de volume */
-        .volume-controls {
+        .barra:nth-child(1) { animation-delay: 0.1s; height: 8px; }
+        .barra:nth-child(2) { animation-delay: 0.2s; height: 12px; }
+        .barra:nth-child(3) { animation-delay: 0.3s; height: 16px; }
+        .barra:nth-child(4) { animation-delay: 0.4s; height: 20px; }
+        .barra:nth-child(5) { animation-delay: 0.5s; height: 16px; }
+        .barra:nth-child(6) { animation-delay: 0.6s; height: 12px; }
+        .barra:nth-child(7) { animation-delay: 0.7s; height: 8px; }
+
+        .controles-volume {
             position: fixed;
             top: 20px;
             left: 20px;
@@ -264,14 +259,14 @@
             transition: opacity 0.5s ease 0.8s;
         }
 
-        .volume-controls.visible {
+        .controles-volume.mostrar {
             opacity: 1;
         }
 
-        .volume-btn {
+        .botao-volume {
             background: transparent;
             border: none;
-            color: var(--main-purple);
+            color: var(--roxo);
             font-size: 1.2rem;
             cursor: pointer;
             width: 36px;
@@ -281,55 +276,36 @@
             justify-content: center;
             border-radius: 50%;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
         }
 
-        .volume-btn:hover {
+        .botao-volume:hover {
             background: rgba(157, 0, 255, 0.2);
             transform: scale(1.1);
-            box-shadow: 0 0 15px var(--main-purple);
+            box-shadow: 0 0 15px var(--roxo);
         }
 
-        .volume-btn::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, transparent 30%, rgba(157, 0, 255, 0.2) 50%, transparent 70%);
-            animation: shine 2s infinite;
-        }
-
-        .volume-slider {
+        .controle-volume {
             width: 100px;
             -webkit-appearance: none;
             height: 6px;
             background: rgba(157, 0, 255, 0.2);
             border-radius: 3px;
             outline: none;
-            opacity: 1;
-            transition: all 0.3s ease;
         }
 
-        .volume-slider::-webkit-slider-thumb {
+        .controle-volume::-webkit-slider-thumb {
             -webkit-appearance: none;
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background: var(--main-purple);
+            background: var(--roxo);
             cursor: pointer;
-            box-shadow: 0 0 10px var(--main-purple);
-            border: 2px solid var(--main-green);
+            box-shadow: 0 0 10px var(--roxo);
+            border: 2px solid var(--verde);
             transition: all 0.2s ease;
         }
 
-        .volume-slider::-webkit-slider-thumb:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 15px var(--main-purple);
-        }
-
-        /* Perfil */
-        .profile {
+        .perfil {
             text-align: center;
             margin-bottom: 40px;
             position: relative;
@@ -339,14 +315,14 @@
             transition: opacity 0.6s ease 0.5s, transform 0.6s ease 0.5s;
         }
 
-        .profile-container {
+        .container-perfil {
             position: relative;
             width: 160px;
             height: 160px;
             margin: 0 auto 20px;
         }
 
-        .aura {
+        .aura-perfil {
             position: absolute;
             top: -20px;
             left: -20px;
@@ -360,11 +336,11 @@
                 rgba(157, 0, 255, 0.2) 70%,
                 transparent 90%);
             z-index: 0;
-            animation: auraGlow 4s ease-in-out infinite;
+            animation: auraAnim 6s ease-in-out infinite;
             filter: blur(10px);
         }
 
-        .profile-img {
+        .foto-perfil {
             width: 160px;
             height: 160px;
             border-radius: 50%;
@@ -378,7 +354,7 @@
             transition: all 0.3s ease;
         }
 
-        .profile-img:hover {
+        .foto-perfil:hover {
             transform: scale(1.05);
             border-color: rgba(157, 0, 255, 0.6);
             box-shadow: 
@@ -386,37 +362,33 @@
                 inset 0 0 40px rgba(157, 0, 255, 0.3);
         }
 
-        .profile-img img {
+        .foto-perfil img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             border-radius: 50%;
-            filter: grayscale(10%) contrast(110%) brightness(1.1);
-            position: relative;
-            z-index: 1;
+            filter: contrast(110%) brightness(1.1);
         }
 
-        .username {
+        .nome {
             font-size: 2.4rem;
             font-weight: bold;
-            background: linear-gradient(45deg, var(--main-purple), var(--main-green));
+            background: linear-gradient(45deg, var(--roxo), var(--verde));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             margin-bottom: 5px;
             text-transform: uppercase;
             letter-spacing: 3px;
-            position: relative;
             text-shadow: 0 0 15px rgba(157, 0, 255, 0.5);
         }
 
-        .username::after {
+        .nome::after {
             content: '_';
-            animation: blink 1s infinite;
+            animation: piscar 1.5s infinite;
         }
 
-        /* Links */
-        .links {
+        .lista-links {
             display: flex;
             flex-direction: column;
             gap: 12px;
@@ -426,7 +398,7 @@
             transition: opacity 0.6s ease 0.7s, transform 0.6s ease 0.7s;
         }
 
-        .link {
+        .item-link {
             display: flex;
             align-items: center;
             background: rgba(5, 5, 15, 0.8);
@@ -436,31 +408,26 @@
             color: #e0e0ff;
             transition: all 0.3s ease;
             border: 1px solid rgba(157, 0, 255, 0.2);
-            position: relative;
-            overflow: hidden;
             opacity: 0;
             transform: translateX(-20px);
         }
 
-        .link:nth-child(1) { transition: opacity 0.4s ease 0.8s, transform 0.4s ease 0.8s; }
-        .link:nth-child(2) { transition: opacity 0.4s ease 0.9s, transform 0.4s ease 0.9s; }
-        .link:nth-child(3) { transition: opacity 0.4s ease 1.0s, transform 0.4s ease 1.0s; }
-        .link:nth-child(4) { transition: opacity 0.4s ease 1.1s, transform 0.4s ease 1.1s; }
-        .link:nth-child(5) { transition: opacity 0.4s ease 1.2s, transform 0.4s ease 1.2s; }
+        .item-link:nth-child(1) { transition: opacity 0.4s ease 0.8s, transform 0.4s ease 0.8s; }
+        .item-link:nth-child(2) { transition: opacity 0.4s ease 0.9s, transform 0.4s ease 0.9s; }
+        .item-link:nth-child(3) { transition: opacity 0.4s ease 1.0s, transform 0.4s ease 1.0s; }
+        .item-link:nth-child(4) { transition: opacity 0.4s ease 1.1s, transform 0.4s ease 1.1s; }
+        .item-link:nth-child(5) { transition: opacity 0.4s ease 1.2s, transform 0.4s ease 1.2s; }
 
-        .link.visible {
+        .item-link.mostrar {
             opacity: 1;
             transform: translateX(0);
         }
 
-        .link:hover {
-            background: rgba(10, 10, 30, 0.9);
-            transform: translateX(5px);
-            border-color: var(--main-purple);
-            box-shadow: 0 0 20px rgba(157, 0, 255, 0.2);
+        .item-link:active {
+            transform: scale(0.98) !important;
         }
 
-        .link-icon {
+        .icone-link {
             width: 40px;
             height: 40px;
             display: flex;
@@ -473,48 +440,40 @@
             border: 1px solid;
         }
 
-        .link-text {
+        .texto-link {
             flex: 1;
         }
 
-        .link-name {
+        .nome-link {
             font-weight: 600;
             font-size: 1rem;
-            color: var(--main-purple);
+            color: var(--roxo);
             margin-bottom: 4px;
         }
 
-        .link-desc {
+        .desc-link {
             font-size: 0.8rem;
             color: #aaaaff;
-            font-family: monospace;
         }
 
-        .link-arrow {
-            color: var(--main-purple);
+        .seta-link {
+            color: var(--roxo);
             font-size: 1.2rem;
             transition: transform 0.3s ease;
         }
 
-        .link:hover .link-arrow {
-            transform: translateX(5px);
-        }
-
-        /* Cores específicas dos ícones */
         .instagram { border-color: #E1306C; color: #E1306C; }
         .tiktok { border-color: #fff; color: #fff; }
         .discord { border-color: #5865F2; color: #5865F2; }
         .spotify { border-color: #1DB954; color: #1DB954; }
         .reddit { border-color: #FF4500; color: #FF4500; }
 
-        /* Footer */
-        .footer {
+        .rodape {
             text-align: center;
             font-size: 0.7rem;
             color: #6666ff;
             padding-top: 15px;
             border-top: 1px solid rgba(157, 0, 255, 0.3);
-            font-family: monospace;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -523,12 +482,11 @@
             transition: opacity 0.6s ease 1.3s, transform 0.6s ease 1.3s;
         }
 
-        .system-time {
+        .tempo-sistema {
             font-size: 0.7rem;
         }
 
-        /* Connections */
-        .connections {
+        .contador-visitas {
             position: fixed;
             bottom: 20px;
             right: 20px;
@@ -545,212 +503,170 @@
             transition: opacity 0.6s ease 1.4s, transform 0.3s ease;
         }
 
-        .connections.visible {
+        .contador-visitas.mostrar {
             opacity: 1;
         }
 
-        .connections:hover {
-            transform: scale(1.05);
-        }
-
-        .eye-icon {
+        .icone-olho {
             width: 32px;
             height: 32px;
-            filter: drop-shadow(0 0 5px var(--main-purple));
+            filter: drop-shadow(0 0 5px var(--roxo));
             object-fit: contain;
         }
 
-        .view-count {
-            color: var(--main-purple);
+        .numero-visitas {
+            color: var(--roxo);
             font-weight: bold;
             font-size: 1.1rem;
-            font-family: monospace;
         }
 
-        /* Animações */
-        @keyframes glitchEffect {
-            0% {
-                transform: translate(0) scale(1);
-                filter: hue-rotate(290deg) saturate(1.8) brightness(0.9);
+        @keyframes fundoAnim {
+            0%, 98%, 100% {
                 opacity: 0.35;
+                transform: translate(0);
             }
-            1% {
-                transform: translate(2px, -1px) scale(1.001);
-                filter: hue-rotate(295deg) saturate(2) brightness(0.95);
+            99% {
                 opacity: 0.4;
-            }
-            2% {
-                transform: translate(-1px, 2px) scale(0.999);
-                filter: hue-rotate(285deg) saturate(1.6) brightness(0.85);
-                opacity: 0.3;
-            }
-            3% {
-                transform: translate(1px, -2px) scale(1.002);
-                filter: hue-rotate(293deg) saturate(1.9) brightness(0.93);
-                opacity: 0.38;
-            }
-            4%, 100% {
-                transform: translate(0) scale(1);
-                filter: hue-rotate(290deg) saturate(1.8) brightness(0.9);
-                opacity: 0.35;
+                transform: translate(1px, -1px);
             }
         }
 
-        @keyframes scan {
+        @keyframes varrer {
             0% { background-position: 0 0; }
             100% { background-position: 0 100%; }
         }
 
-        @keyframes borderFlow {
+        @keyframes bordaAnim {
             0% { background-position: -100% 0; }
             100% { background-position: 200% 0; }
         }
 
-        @keyframes pulse {
+        @keyframes pulsar {
             0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+            50% { opacity: 0.6; }
         }
 
-        @keyframes barPulse {
-            0%, 100% { transform: scaleY(1); opacity: 0.7; }
-            50% { transform: scaleY(0.5); opacity: 1; }
+        @keyframes barraAnim {
+            0%, 100% { transform: scaleY(0.3); }
+            50% { transform: scaleY(1); }
         }
 
-        @keyframes shine {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        @keyframes blink {
+        @keyframes piscar {
             0%, 50% { opacity: 1; }
             51%, 100% { opacity: 0; }
         }
 
-        @keyframes auraGlow {
+        @keyframes auraAnim {
             0%, 100% { 
                 opacity: 0.6;
                 transform: scale(0.95);
             }
             50% { 
-                opacity: 0.9;
+                opacity: 0.8;
                 transform: scale(1.05);
             }
         }
 
-        /* Glitch forte ocasional */
-        @keyframes strongGlitch {
-            0%, 96% {
-                transform: translate(0) scale(1);
-                filter: hue-rotate(290deg) saturate(1.8) brightness(0.9);
+        @keyframes glitchForte {
+            0%, 97%, 100% {
+                transform: translate(0);
                 opacity: 0.35;
             }
-            97% {
-                transform: translate(5px, -4px) scale(1.006);
-                filter: hue-rotate(310deg) saturate(2.5) brightness(1.1);
-                opacity: 0.45;
-                clip-path: inset(10% 0 30% 0);
-            }
             98% {
-                transform: translate(-4px, 5px) scale(0.994);
-                filter: hue-rotate(270deg) saturate(1.5) brightness(0.8);
-                opacity: 0.25;
-                clip-path: inset(30% 0 10% 0);
+                transform: translate(3px, -2px);
+                opacity: 0.4;
             }
             99% {
-                transform: translate(3px, -2px) scale(1.004);
-                filter: hue-rotate(300deg) saturate(2.2) brightness(1.05);
-                opacity: 0.4;
-                clip-path: inset(0 10% 0 30%);
+                transform: translate(-2px, 3px);
+                opacity: 0.3;
             }
         }
 
-        /* ========== ESTILOS MOBILE ========== */
         @media (max-width: 768px) {
             body {
                 padding: 15px;
-                min-height: 100vh;
-                height: auto;
                 display: block;
                 overflow-y: auto;
                 -webkit-overflow-scrolling: touch;
             }
             
-            .wallpaper {
+            .fundo {
                 opacity: 0.25;
+                animation-duration: 30s;
             }
             
-            .anime-girl {
+            .anime {
                 width: 180px;
-                position: fixed;
                 bottom: 10px;
                 left: 10px;
-                z-index: 3;
                 opacity: 0.7;
             }
             
-            .container {
+            .principal {
                 max-width: 100%;
                 padding: 20px;
                 margin-top: 20px;
                 margin-bottom: 100px;
-                min-height: auto;
-                height: auto;
-                display: block;
-                position: relative;
-                overflow: visible;
+                backdrop-filter: none;
+                background: rgba(10, 10, 20, 0.95);
             }
             
-            .header {
+            .topo {
                 flex-direction: column;
                 gap: 15px;
                 text-align: center;
                 margin-bottom: 20px;
             }
             
-            .profile {
+            .perfil {
                 margin-bottom: 30px;
             }
             
-            .profile-container {
+            .container-perfil {
                 width: 120px;
                 height: 120px;
             }
             
-            .profile-img {
+            .foto-perfil {
                 width: 120px;
                 height: 120px;
             }
             
-            .username {
+            .aura-perfil {
+                animation-duration: 8s;
+            }
+            
+            .nome {
                 font-size: 1.8rem;
                 letter-spacing: 2px;
             }
             
-            .links {
+            .lista-links {
                 gap: 10px;
                 margin-bottom: 20px;
             }
             
-            .link {
+            .item-link {
                 padding: 14px 16px;
+                -webkit-tap-highlight-color: rgba(157, 0, 255, 0.2);
             }
             
-            .link-icon {
+            .icone-link {
                 width: 36px;
                 height: 36px;
                 margin-right: 12px;
                 font-size: 1.1rem;
             }
             
-            .link-name {
+            .nome-link {
                 font-size: 0.9rem;
             }
             
-            .link-desc {
+            .desc-link {
                 font-size: 0.75rem;
             }
             
-            .volume-controls {
+            .controles-volume {
                 top: 10px;
                 left: 10px;
                 padding: 10px 12px;
@@ -758,122 +674,128 @@
                 z-index: 200;
             }
             
-            .volume-btn {
+            .botao-volume {
                 width: 32px;
                 height: 32px;
                 font-size: 1rem;
             }
             
-            .volume-slider {
+            .controle-volume {
                 width: 80px;
             }
             
-            .connections {
+            .contador-visitas {
                 bottom: 10px;
                 right: 10px;
                 padding: 10px 12px;
                 z-index: 200;
             }
             
-            .music-player {
+            .player {
                 padding: 12px;
                 margin-bottom: 20px;
             }
             
-            .player-title {
+            .player-titulo {
                 font-size: 0.8rem;
             }
             
-            .visualizer {
+            .visual {
                 gap: 2px;
             }
             
-            .bar {
+            .barra {
                 width: 3px;
             }
             
-            .footer {
+            .rodape {
                 flex-direction: column;
                 gap: 8px;
                 text-align: center;
                 padding-top: 12px;
             }
             
-            .system-time {
+            .tempo-sistema {
                 font-size: 0.65rem;
             }
             
-            /* Ajustes para telas muito pequenas */
+            body.rolando .fundo,
+            body.rolando .linhas,
+            body.rolando .aura-perfil,
+            body.rolando .ponto,
+            body.rolando .principal::before {
+                animation-play-state: paused !important;
+            }
+            
             @media (max-height: 700px) {
-                .anime-girl {
+                .anime {
                     display: none;
                 }
                 
-                .container {
+                .principal {
                     margin-bottom: 50px;
                 }
                 
-                .profile {
+                .perfil {
                     margin-bottom: 20px;
                 }
                 
-                .profile-container {
+                .container-perfil {
                     width: 100px;
                     height: 100px;
                 }
                 
-                .profile-img {
+                .foto-perfil {
                     width: 100px;
                     height: 100px;
                 }
                 
-                .username {
+                .nome {
                     font-size: 1.5rem;
                 }
                 
-                .links {
+                .lista-links {
                     gap: 8px;
                 }
                 
-                .link {
+                .item-link {
                     padding: 12px 14px;
                 }
             }
             
-            /* Ajustes para iPhone SE e similares */
             @media (max-width: 375px) {
-                .container {
+                .principal {
                     padding: 15px;
                 }
                 
-                .username {
+                .nome {
                     font-size: 1.4rem;
                 }
                 
-                .link {
+                .item-link {
                     padding: 10px 12px;
                 }
                 
-                .link-icon {
+                .icone-link {
                     width: 32px;
                     height: 32px;
                     margin-right: 10px;
                 }
                 
-                .link-name {
+                .nome-link {
                     font-size: 0.85rem;
                 }
                 
-                .link-desc {
+                .desc-link {
                     font-size: 0.7rem;
                 }
                 
-                .volume-controls {
+                .controles-volume {
                     left: 5px;
                     top: 5px;
                 }
                 
-                .connections {
+                .contador-visitas {
                     right: 5px;
                     bottom: 5px;
                 }
@@ -881,489 +803,468 @@
         }
 
         @media (min-width: 769px) {
-            /* Mantém o comportamento original para desktop */
-            .anime-girl {
-                display: block;
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Overlay inicial -->
-    <div id="startOverlay">
-        <div class="start-message">CLICK TO START</div>
+    <div id="inicio" role="button" tabindex="0">
+        <div class="mensagem-inicio">CLIQUE PARA INICIAR</div>
     </div>
 
-    <!-- Wallpaper com efeito glitch -->
-    <div class="wallpaper"></div>
+    <div class="fundo"></div>
     
-    <!-- Scanlines -->
-    <div class="scanlines"></div>
+    <div class="linhas"></div>
 
-    <!-- Imagem de anime -->
-    <div class="anime-girl">
-        <img src="https://raw.githubusercontent.com/Misoto7/misoto/refs/heads/main/anime.png" alt="Anime Girl">
+    <div class="anime">
+        <img src="https://raw.githubusercontent.com/Misoto7/misoto/refs/heads/main/anime.png" alt="Anime" loading="lazy">
     </div>
 
-    <!-- Connections -->
-    <div class="connections">
-        <img src="https://raw.githubusercontent.com/Misoto7/misoto/refs/heads/main/olhol.jpg" alt="👁️" class="eye-icon">
-        <span class="view-count" id="viewCount">1042</span>
+    <div class="contador-visitas">
+        <img src="https://raw.githubusercontent.com/Misoto7/misoto/refs/heads/main/olhol.jpg" alt="Olho" class="icone-olho" loading="lazy">
+        <span class="numero-visitas" id="contador">1042</span>
     </div>
 
-    <!-- Controle de volume -->
-    <div class="volume-controls">
-        <button class="volume-btn" id="volumeBtn">
+    <div class="controles-volume">
+        <button class="botao-volume" id="botaoVolume">
             <i class="fas fa-volume-up"></i>
         </button>
-        <input type="range" min="0" max="100" value="100" class="volume-slider" id="volumeSlider">
+        <input type="range" min="0" max="100" value="100" class="controle-volume" id="controleVolume">
     </div>
 
-    <!-- Container principal -->
-    <div class="container" id="mainContent">
-        <div class="header">
-            <div class="title">SYSTEM::LINKS</div>
-            <div class="status">
-                <div class="dot"></div>
-                <span style="color: var(--main-purple); font-size: 0.8rem;">ONLINE</span>
+    <div class="principal" id="conteudo">
+        <div class="topo">
+            <div class="titulo">SISTEMA::LINKS</div>
+            <div class="estado">
+                <div class="ponto"></div>
+                <span style="color: var(--roxo); font-size: 0.8rem;">ONLINE</span>
             </div>
         </div>
 
-        <!-- Player de música -->
-        <div class="music-player" id="musicPlayer">
-            <div class="player-header">
-                <div class="player-title">AUDIO_STREAM :: ACTIVE</div>
-                <div class="visualizer" id="visualizer">
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                    <div class="bar"></div>
+        <div class="player" id="player">
+            <div class="player-topo">
+                <div class="player-titulo">STREAM DE ÁUDIO :: ATIVO</div>
+                <div class="visual" id="visual">
+                    <div class="barra"></div>
+                    <div class="barra"></div>
+                    <div class="barra"></div>
+                    <div class="barra"></div>
+                    <div class="barra"></div>
+                    <div class="barra"></div>
+                    <div class="barra"></div>
                 </div>
             </div>
         </div>
 
-        <!-- Perfil -->
-        <div class="profile" id="profileSection">
-            <div class="profile-container">
-                <div class="aura"></div>
-                <div class="profile-img">
-                    <img src="https://raw.githubusercontent.com/Misoto7/misoto/main/foto.jpg" alt="Misoto">
+        <div class="perfil" id="perfil">
+            <div class="container-perfil">
+                <div class="aura-perfil"></div>
+                <div class="foto-perfil">
+                    <img src="https://raw.githubusercontent.com/Misoto7/misoto/main/foto.jpg" alt="Misoto" loading="lazy">
                 </div>
             </div>
-            <h1 class="username">MISOTO</h1>
+            <h1 class="nome">MISOTO</h1>
         </div>
 
-        <!-- Links -->
-        <div class="links" id="linksSection">
-            <a href="https://www.instagram.com/misoto._/" target="_blank" class="link" id="link1">
-                <div class="link-icon instagram">
+        <div class="lista-links" id="listaLinks">
+            <a href="https://www.instagram.com/misoto._/" target="_blank" class="item-link" data-social="instagram">
+                <div class="icone-link instagram">
                     <i class="fab fa-instagram"></i>
                 </div>
-                <div class="link-text">
-                    <div class="link-name">INSTAGRAM</div>
-                    <div class="link-desc">@misoto._</div>
+                <div class="texto-link">
+                    <div class="nome-link">INSTAGRAM</div>
+                    <div class="desc-link">@misoto._</div>
                 </div>
-                <div class="link-arrow">
+                <div class="seta-link">
                     <i class="fas fa-chevron-right"></i>
                 </div>
             </a>
 
-            <a href="https://www.tiktok.com/@misoto" target="_blank" class="link" id="link2">
-                <div class="link-icon tiktok">
+            <a href="https://www.tiktok.com/@misoto" target="_blank" class="item-link" data-social="tiktok">
+                <div class="icone-link tiktok">
                     <i class="fab fa-tiktok"></i>
                 </div>
-                <div class="link-text">
-                    <div class="link-name">TIKTOK</div>
-                    <div class="link-desc">@misoto</div>
+                <div class="texto-link">
+                    <div class="nome-link">TIKTOK</div>
+                    <div class="desc-link">@misoto</div>
                 </div>
-                <div class="link-arrow">
+                <div class="seta-link">
                     <i class="fas fa-chevron-right"></i>
                 </div>
             </a>
 
-            <a href="#" target="_blank" class="link" id="link3">
-                <div class="link-icon discord">
+            <a href="#" class="item-link" data-social="discord" id="linkDiscord">
+                <div class="icone-link discord">
                     <i class="fab fa-discord"></i>
                 </div>
-                <div class="link-text">
-                    <div class="link-name">DISCORD</div>
-                    <div class="link-desc">misoto_</div>
+                <div class="texto-link">
+                    <div class="nome-link">DISCORD</div>
+                    <div class="desc-link">misoto_</div>
                 </div>
-                <div class="link-arrow">
+                <div class="seta-link">
                     <i class="fas fa-chevron-right"></i>
                 </div>
             </a>
 
-            <a href="https://open.spotify.com/user/31fa7yqasf7zfznihgu7vn5lweiy" target="_blank" class="link" id="link4">
-                <div class="link-icon spotify">
+            <a href="https://open.spotify.com/user/31fa7yqasf7zfznihgu7vn5lweiy" target="_blank" class="item-link" data-social="spotify">
+                <div class="icone-link spotify">
                     <i class="fab fa-spotify"></i>
                 </div>
-                <div class="link-text">
-                    <div class="link-name">SPOTIFY</div>
-                    <div class="link-desc">PLAYLISTS</div>
+                <div class="texto-link">
+                    <div class="nome-link">SPOTIFY</div>
+                    <div class="desc-link">PLAYLISTS</div>
                 </div>
-                <div class="link-arrow">
+                <div class="seta-link">
                     <i class="fas fa-chevron-right"></i>
                 </div>
             </a>
 
-            <a href="https://www.reddit.com/user/misoto_/" target="_blank" class="link" id="link5">
-                <div class="link-icon reddit">
+            <a href="https://www.reddit.com/user/misoto_/" target="_blank" class="item-link" data-social="reddit">
+                <div class="icone-link reddit">
                     <i class="fab fa-reddit"></i>
                 </div>
-                <div class="link-text">
-                    <div class="link-name">REDDIT</div>
-                    <div class="link-desc">u/misoto_</div>
+                <div class="texto-link">
+                    <div class="nome-link">REDDIT</div>
+                    <div class="desc-link">u/misoto_</div>
                 </div>
-                <div class="link-arrow">
+                <div class="seta-link">
                     <i class="fas fa-chevron-right"></i>
                 </div>
             </a>
         </div>
 
-        <!-- Footer -->
-        <div class="footer" id="footerSection">
-            <div class="system-time">
-                SYSTEM_TIME: <span id="currentDate"></span> | VERSION: 2.3.1
+        <div class="rodape" id="rodape">
+            <div class="tempo-sistema">
+                SISTEMA: <span id="dataAtual"></span> | v2.3.1
             </div>
         </div>
     </div>
 
-    <!-- Áudio -->
-    <audio id="backgroundMusic" loop preload="auto">
+    <audio id="musica" loop preload="metadata">
         <source src="https://raw.githubusercontent.com/Misoto7/misoto/main/music.mp3" type="audio/mpeg">
     </audio>
 
     <script>
-        // Sistema de visualizações
-        function getTotalViews() {
+        function contarVisitas() {
             try {
-                const today = new Date().toISOString().split('T')[0];
-                const viewsToday = localStorage.getItem('viewsToday') || '{}';
-                const viewsObj = JSON.parse(viewsToday);
+                const hoje = new Date().toISOString().split('T')[0];
+                const visitasHoje = localStorage.getItem('visitasHoje') || '{}';
+                const objVisitas = JSON.parse(visitasHoje);
                 
-                if (!viewsObj[today]) {
-                    viewsObj[today] = 0;
+                let idUsuario = localStorage.getItem('idUsuario');
+                if (!idUsuario) {
+                    idUsuario = 'usr_' + Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
+                    localStorage.setItem('idUsuario', idUsuario);
                 }
                 
-                const userKey = 'user-' + Date.now();
-                const sessionKey = 'session_' + today;
-                const sessionViews = localStorage.getItem(sessionKey) || '';
-                
-                if (!sessionViews.includes(userKey)) {
-                    viewsObj[today]++;
-                    localStorage.setItem('viewsToday', JSON.stringify(viewsObj));
-                    localStorage.setItem(sessionKey, sessionViews + userKey + ',');
+                const chaveContado = `contado_${hoje}_${idUsuario}`;
+                if (!localStorage.getItem(chaveContado)) {
+                    if (!objVisitas[hoje]) {
+                        objVisitas[hoje] = 0;
+                    }
+                    objVisitas[hoje]++;
+                    localStorage.setItem('visitasHoje', JSON.stringify(objVisitas));
+                    localStorage.setItem(chaveContado, 'sim');
                 }
                 
-                let total = 0;
-                for (const date in viewsObj) {
-                    total += viewsObj[date];
+                let total = 1042;
+                for (const data in objVisitas) {
+                    total += objVisitas[data];
                 }
                 
                 return total;
-            } catch (error) {
-                console.error('Erro:', error);
+            } catch (erro) {
                 return 1042;
             }
         }
         
-        // Elementos DOM
-        const startOverlay = document.getElementById('startOverlay');
-        const mainContent = document.getElementById('mainContent');
-        const music = document.getElementById('backgroundMusic');
-        const volumeSlider = document.getElementById('volumeSlider');
-        const volumeBtn = document.getElementById('volumeBtn');
-        const bars = document.querySelectorAll('.bar');
-        const viewCountElement = document.getElementById('viewCount');
-        const wallpaper = document.querySelector('.wallpaper');
-        const animeGirl = document.querySelector('.anime-girl');
-        const connections = document.querySelector('.connections');
-        const volumeControls = document.querySelector('.volume-controls');
-        const musicPlayer = document.getElementById('musicPlayer');
-        const profileSection = document.getElementById('profileSection');
-        const linksSection = document.getElementById('linksSection');
-        const footerSection = document.getElementById('footerSection');
-        const links = document.querySelectorAll('.link');
+        const inicio = document.getElementById('inicio');
+        const conteudo = document.getElementById('conteudo');
+        const musica = document.getElementById('musica');
+        const controleVolume = document.getElementById('controleVolume');
+        const botaoVolume = document.getElementById('botaoVolume');
+        const barras = document.querySelectorAll('.barra');
+        const contador = document.getElementById('contador');
+        const fundo = document.querySelector('.fundo');
+        const anime = document.querySelector('.anime');
+        const contadorVisitas = document.querySelector('.contador-visitas');
+        const controlesVolume = document.querySelector('.controles-volume');
+        const player = document.getElementById('player');
+        const perfil = document.getElementById('perfil');
+        const listaLinks = document.getElementById('listaLinks');
+        const rodape = document.getElementById('rodape');
+        const linkDiscord = document.getElementById('linkDiscord');
         
-        // Configurações iniciais
-        music.volume = 1.0;
-        volumeSlider.value = 100;
+        musica.volume = 1.0;
+        controleVolume.value = 100;
         
-        // Carregar visualizações
-        const totalViews = getTotalViews();
-        viewCountElement.textContent = totalViews.toString();
+        const totalVisitas = contarVisitas();
+        contador.textContent = totalVisitas.toString();
         
-        // Variáveis de controle
-        let isMuted = false;
+        let mute = false;
+        let timerGlitch = null;
         
-        // Sistema de inicialização sequencial
-        function startEverything() {
-            // Fade out do overlay
-            startOverlay.style.opacity = '0';
-            startOverlay.style.transition = 'opacity 0.5s';
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                document.body.classList.add('pausado');
+                if (timerGlitch) clearInterval(timerGlitch);
+            } else {
+                document.body.classList.remove('pausado');
+                configurarTimerGlitch();
+            }
+        });
+        
+        if (window.innerWidth <= 768) {
+            let timerScroll;
+            window.addEventListener('scroll', () => {
+                document.body.classList.add('rolando');
+                clearTimeout(timerScroll);
+                timerScroll = setTimeout(() => {
+                    document.body.classList.remove('rolando');
+                }, 100);
+            }, { passive: true });
+        }
+        
+        function iniciarTudo() {
+            inicio.style.opacity = '0';
+            inicio.style.transition = 'opacity 0.5s';
             
             setTimeout(() => {
-                startOverlay.style.display = 'none';
+                inicio.style.display = 'none';
                 
-                // Mostrar terminal
-                mainContent.style.display = 'block';
+                conteudo.style.display = 'block';
                 setTimeout(() => {
-                    mainContent.classList.add('visible');
+                    conteudo.classList.add('mostrar');
                 }, 10);
                 
-                // Iniciar sequência de animações
-                setTimeout(() => {
-                    musicPlayer.style.opacity = '1';
-                    musicPlayer.style.transform = 'translateY(0)';
-                }, 300);
+                const animacoes = [
+                    { el: player, delay: 300 },
+                    { el: perfil, delay: 500 },
+                    { el: listaLinks, delay: 700 },
+                    { el: rodape, delay: 1300 }
+                ];
+                
+                animacoes.forEach(({ el, delay }) => {
+                    setTimeout(() => {
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                    }, delay);
+                });
                 
                 setTimeout(() => {
-                    profileSection.style.opacity = '1';
-                    profileSection.style.transform = 'translateY(0)';
-                }, 500);
-                
-                setTimeout(() => {
-                    linksSection.style.opacity = '1';
-                    linksSection.style.transform = 'translateY(0)';
-                    
-                    // Animar links individualmente
+                    const links = document.querySelectorAll('.item-link');
                     links.forEach((link, index) => {
                         setTimeout(() => {
-                            link.classList.add('visible');
-                        }, index * 100);
+                            link.classList.add('mostrar');
+                        }, index * 80);
                     });
                 }, 700);
                 
                 setTimeout(() => {
-                    footerSection.style.opacity = '1';
-                    footerSection.style.transform = 'translateY(0)';
-                }, 1300);
-                
-                setTimeout(() => {
-                    // Mostrar imagem anime
-                    animeGirl.classList.add('visible');
+                    anime.classList.add('mostrar');
+                    contadorVisitas.classList.add('mostrar');
+                    controlesVolume.classList.add('mostrar');
                     
-                    // Mostrar connections
-                    connections.classList.add('visible');
-                    
-                    // Mostrar controles de volume
-                    volumeControls.classList.add('visible');
-                    
-                    // Iniciar música
-                    startMusic();
+                    iniciarMusica();
+                    configurarTimerGlitch();
+                    configurarEfeitoAnime();
                 }, 1400);
                 
-            }, 500);
+            }, 300);
         }
         
-        // Função para iniciar música
-        function startMusic() {
-            const playPromise = music.play();
-            
-            if (playPromise !== undefined) {
-                playPromise.then(() => {
-                    updateVisualizer();
-                }).catch(error => {
-                    console.log('Áudio requer interação do usuário');
-                    document.addEventListener('click', function initAudio() {
-                        music.play();
-                        updateVisualizer();
-                        document.removeEventListener('click', initAudio);
-                    });
-                });
-            }
+        function iniciarMusica() {
+            musica.play().catch(() => {
+                const iniciarAudio = () => {
+                    musica.play();
+                    atualizarVisual();
+                    document.removeEventListener('click', iniciarAudio);
+                };
+                document.addEventListener('click', iniciarAudio);
+            });
         }
         
-        // Clique no overlay para iniciar
-        startOverlay.addEventListener('click', startEverything);
-        
-        // Controles de volume
-        let isDragging = false;
-        
-        volumeSlider.addEventListener('input', function(e) {
-            music.volume = this.value / 100;
+        controleVolume.addEventListener('input', function() {
+            const novoVolume = this.value / 100;
+            musica.volume = novoVolume;
             
-            if (this.value > 0 && isMuted) {
-                isMuted = false;
-                music.muted = false;
+            if (novoVolume > 0 && mute) {
+                mute = false;
+                musica.muted = false;
             }
             
-            updateVolumeIcon();
-            updateVisualizer();
-        });
+            atualizarIconeVolume();
+        }, { passive: true });
         
-        // Botão de mute/unmute
-        volumeBtn.addEventListener('click', function() {
-            if (isMuted) {
-                music.volume = volumeSlider.value / 100;
-                music.muted = false;
-                isMuted = false;
+        botaoVolume.addEventListener('click', function() {
+            mute = !mute;
+            musica.muted = mute;
+            
+            if (mute) {
+                controleVolume.value = 0;
             } else {
-                music.volume = 0;
-                music.muted = true;
-                isMuted = true;
+                controleVolume.value = musica.volume * 100;
             }
-            updateVolumeIcon();
-            updateVisualizer();
+            
+            atualizarIconeVolume();
+            atualizarVisual();
         });
         
-        // Atualizar ícone de volume
-        function updateVolumeIcon() {
-            const volume = volumeSlider.value;
-            let iconClass = 'fas fa-volume-up';
+        function atualizarIconeVolume() {
+            const volume = controleVolume.value;
+            let classeIcone = 'fas fa-volume-up';
             
-            if (isMuted || volume == 0) {
-                iconClass = 'fas fa-volume-mute';
+            if (mute || volume == 0) {
+                classeIcone = 'fas fa-volume-mute';
             } else if (volume < 30) {
-                iconClass = 'fas fa-volume-down';
-            } else if (volume < 70) {
-                iconClass = 'fas fa-volume-up';
+                classeIcone = 'fas fa-volume-down';
             }
             
-            volumeBtn.innerHTML = `<i class="${iconClass}"></i>`;
+            botaoVolume.innerHTML = `<i class="${classeIcone}"></i>`;
         }
         
-        // Atualizar visualizador
-        function updateVisualizer() {
-            const volume = music.volume;
-            const isPlaying = !music.paused && !music.muted;
-            
-            if (volume === 0 || !isPlaying || isMuted) {
-                bars.forEach(bar => {
-                    bar.style.animationPlayState = 'paused';
-                    bar.style.opacity = '0.3';
-                });
-            } else {
-                bars.forEach(bar => {
-                    bar.style.animationPlayState = 'running';
-                    bar.style.opacity = '0.7';
-                });
+        function atualizarVisual() {
+            const tocando = !musica.paused && !musica.muted;
+            barras.forEach(barra => {
+                if (tocando) {
+                    barra.classList.add('ativa');
+                } else {
+                    barra.classList.remove('ativa');
+                    barra.style.transform = 'scaleY(0.3)';
+                }
+            });
+        }
+        
+        listaLinks.addEventListener('mouseenter', (e) => {
+            const link = e.target.closest('.item-link');
+            if (link && link !== linkDiscord) {
+                link.style.boxShadow = '0 0 25px rgba(157, 0, 255, 0.3)';
+                link.style.transform = 'translateX(5px)';
             }
+        }, true);
+        
+        listaLinks.addEventListener('mouseleave', (e) => {
+            const link = e.target.closest('.item-link');
+            if (link && link !== linkDiscord) {
+                link.style.boxShadow = '';
+                link.style.transform = '';
+            }
+        }, true);
+        
+        function configurarTimerGlitch() {
+            if (timerGlitch) clearInterval(timerGlitch);
+            
+            timerGlitch = setInterval(() => {
+                if (Math.random() > 0.8) {
+                    ativarGlitchForte();
+                }
+            }, 15000);
         }
         
-        // Efeito de glitch ocasional
-        function triggerStrongGlitch() {
-            wallpaper.style.animation = 'strongGlitch 0.5s';
-            
-            animeGirl.style.filter = 'drop-shadow(0 0 25px rgba(157, 0, 255, 0.8)) brightness(1.1)';
+        function ativarGlitchForte() {
+            fundo.style.animation = 'glitchForte 0.5s';
+            anime.style.filter = 'drop-shadow(0 0 25px rgba(157, 0, 255, 0.8))';
             
             setTimeout(() => {
-                wallpaper.style.animation = 'glitchEffect 8s infinite linear';
-                animeGirl.style.filter = 'drop-shadow(0 0 15px rgba(157, 0, 255, 0.6))';
+                fundo.style.animation = 'fundoAnim 20s infinite linear';
+                anime.style.filter = 'drop-shadow(0 0 15px rgba(157, 0, 255, 0.6))';
             }, 500);
         }
         
-        // Glitch aleatório a cada 10-20 segundos
-        setInterval(() => {
-            if (Math.random() > 0.7) {
-                triggerStrongGlitch();
+        function configurarEfeitoAnime() {
+            if (window.innerWidth > 768) {
+                setInterval(() => {
+                    if (Math.random() > 0.5) {
+                        anime.style.transform = `translateY(${Math.random() * 2 - 1}px)`;
+                        setTimeout(() => {
+                            anime.style.transform = 'translateY(0)';
+                        }, 200);
+                    }
+                }, 4000);
             }
-        }, Math.random() * 10000 + 10000);
-        
-        // Data e hora
-        const currentDateElement = document.getElementById('currentDate');
-        function updateDateTime() {
-            const now = new Date();
-            const dateStr = now.toLocaleDateString('pt-BR', { 
-                day: '2-digit', 
-                month: '2-digit', 
-                year: 'numeric' 
-            });
-            const timeStr = now.toLocaleTimeString('pt-BR', { 
-                hour12: false,
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            });
-            currentDateElement.textContent = `${dateStr} ${timeStr}`;
         }
         
-        updateDateTime();
-        setInterval(updateDateTime, 1000);
+        const dataAtual = document.getElementById('dataAtual');
+        function atualizarDataHora() {
+            const agora = new Date();
+            dataAtual.textContent = agora.toLocaleDateString('pt-BR') + ' ' + 
+                                   agora.toLocaleTimeString('pt-BR', { hour12: false }).substr(0, 5);
+        }
         
-        // Efeito de digitação para textos
-        const texts = document.querySelectorAll('.link-name, .link-desc');
-        texts.forEach(text => {
-            const original = text.textContent;
-            text.textContent = '';
-            
-            let i = 0;
-            const typeWriter = () => {
-                if (i < original.length) {
-                    text.textContent += original.charAt(i);
-                    i++;
-                    setTimeout(typeWriter, Math.random() * 50 + 30);
-                }
-            };
-            
-            setTimeout(typeWriter, Math.random() * 1000 + 500);
-        });
+        atualizarDataHora();
+        setInterval(atualizarDataHora, 60000);
         
-        // Efeito no Discord link
-        document.getElementById('link3').addEventListener('click', function(e) {
+        setTimeout(() => {
+            const textos = document.querySelectorAll('.nome-link, .desc-link');
+            textos.forEach(texto => {
+                const original = texto.textContent;
+                texto.textContent = '';
+                
+                let i = 0;
+                const escrever = () => {
+                    if (i < original.length) {
+                        texto.textContent += original.charAt(i);
+                        i++;
+                        setTimeout(escrever, Math.random() * 30 + 20);
+                    }
+                };
+                
+                setTimeout(escrever, Math.random() * 500 + 200);
+            });
+        }, 800);
+        
+        linkDiscord.addEventListener('click', function(e) {
             e.preventDefault();
             navigator.clipboard.writeText("misoto_").then(() => {
+                const bgOriginal = this.style.backgroundColor;
                 this.style.backgroundColor = 'rgba(157, 0, 255, 0.1)';
-                this.style.borderColor = 'var(--main-purple)';
+                this.style.borderColor = 'var(--roxo)';
+                
                 setTimeout(() => {
-                    this.style.backgroundColor = '';
+                    this.style.backgroundColor = bgOriginal;
                     this.style.borderColor = '';
-                }, 1000);
+                }, 800);
+            }).catch(() => {
+                prompt('Copie o username do Discord:', "misoto_");
             });
         });
         
-        // Efeitos nos hover dos links
-        links.forEach(link => {
-            link.addEventListener('mouseenter', () => {
-                link.style.boxShadow = '0 0 25px rgba(157, 0, 255, 0.3)';
-            });
-            
-            link.addEventListener('mouseleave', () => {
-                link.style.boxShadow = '';
-            });
+        inicio.addEventListener('click', iniciarTudo);
+        inicio.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                iniciarTudo();
+            }
         });
         
-        // Efeito de glitch aleatório
-        setInterval(() => {
-            if (Math.random() > 0.7) {
-                mainContent.style.transform = 
-                    `translate(${Math.random() * 2 - 1}px, ${Math.random() * 2 - 1}px)`;
-                setTimeout(() => {
-                    mainContent.style.transform = 'translate(0, 0)';
-                }, 50);
-            }
-        }, 3000);
+        let timerResize;
+        window.addEventListener('resize', () => {
+            clearTimeout(timerResize);
+            timerResize = setTimeout(() => {
+                if (window.innerWidth <= 768) {
+                    document.body.classList.add('mobile');
+                } else {
+                    document.body.classList.remove('mobile');
+                }
+            }, 250);
+        }, { passive: true });
         
-        // Inicializar
-        updateVolumeIcon();
+        atualizarIconeVolume();
         
-        // Mobile: ajustar altura do container
-        function adjustContainerHeight() {
-            if (window.innerWidth <= 768) {
-                const container = document.querySelector('.container');
-                const bodyHeight = document.body.scrollHeight;
-                container.style.minHeight = 'auto';
-                container.style.height = 'auto';
-            }
+        if (window.innerWidth <= 768) {
+            document.body.classList.add('mobile');
         }
         
-        // Ajustar ao carregar e redimensionar
-        window.addEventListener('load', adjustContainerHeight);
-        window.addEventListener('resize', adjustContainerHeight);
+        musica.addEventListener('play', atualizarVisual);
+        musica.addEventListener('pause', atualizarVisual);
+        musica.addEventListener('volumechange', atualizarVisual);
         
-        // Mobile: melhorar toque nos links
-        links.forEach(link => {
-            link.addEventListener('touchstart', function() {
-                this.style.transform = 'scale(0.98)';
-            });
-            
-            link.addEventListener('touchend', function() {
-                this.style.transform = '';
-            });
+        window.addEventListener('beforeunload', () => {
+            if (timerGlitch) clearInterval(timerGlitch);
+            musica.pause();
         });
     </script>
 </body>
