@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Misoto | Links</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -10,34 +10,31 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Courier New', 'Segoe UI', monospace;
+            font-family: 'Courier New', monospace;
             -webkit-tap-highlight-color: transparent;
         }
 
         :root {
-            --main-green: #00ff00;
-            --main-purple: #9d00ff;
-            --main-blue: #0088ff;
-            --dark-bg: #0a0a0f;
-            --darker-bg: #050508;
-            --card-bg: rgba(10, 10, 20, 0.85);
-            --glow-color: rgba(157, 0, 255, 0.3);
-            --text-glow: rgba(0, 255, 0, 0.5);
+            --verde: #00ff00;
+            --roxo: #9d00ff;
+            --azul: #0088ff;
+            --fundo-escuro: #0a0a0f;
+            --fundo-mais-escuro: #050508;
+            --card: rgba(10, 10, 20, 0.85);
+            --brilho: rgba(157, 0, 255, 0.3);
         }
 
-        /* Pausar animações quando inativo */
-        .paused * {
+        .pausado * {
             animation-play-state: paused !important;
         }
 
-        /* Overlay inicial */
-        #startOverlay {
+        #inicio {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: var(--dark-bg);
+            background: var(--fundo-escuro);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -45,28 +42,23 @@
             cursor: pointer;
         }
 
-        .start-message {
-            color: var(--main-purple);
+        .mensagem-inicio {
+            color: var(--roxo);
             font-size: 1.2rem;
             text-transform: uppercase;
             letter-spacing: 2px;
-            animation: pulse 2s infinite;
+            animation: pulsar 2s infinite;
         }
 
         body {
-            background: var(--dark-bg);
+            background: var(--fundo-escuro);
             color: #e0e0ff;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             padding: 20px;
             position: relative;
-            overflow-x: hidden;
         }
 
-        /* Wallpaper com efeito glitch otimizado */
-        .wallpaper {
+        .fundo {
             position: fixed;
             top: 0;
             left: 0;
@@ -75,17 +67,13 @@
             background-image: url('https://raw.githubusercontent.com/Misoto7/misoto/refs/heads/main/2025-12-23-04-47-33.png');
             background-size: cover;
             background-position: center;
-            background-repeat: no-repeat;
             opacity: 0.35;
             z-index: 1;
-            /* Base filter - menos pesado */
             filter: hue-rotate(290deg) saturate(1.8);
-            /* Anima apenas opacity */
-            animation: wallpaperGlitch 20s infinite linear;
+            animation: fundoAnim 20s infinite linear;
         }
 
-        /* Scanlines otimizadas */
-        .scanlines {
+        .linhas {
             position: fixed;
             top: 0;
             left: 0;
@@ -100,68 +88,60 @@
             pointer-events: none;
             z-index: 2;
             opacity: 0.5;
-            /* Mais lento e suave */
-            animation: scan 12s linear infinite;
+            animation: varrer 12s linear infinite;
         }
 
-        /* Imagem de anime otimizada */
-        .anime-girl {
+        .anime {
             position: fixed;
             bottom: 0;
             left: 0;
             z-index: 5;
             width: 280px;
             height: auto;
-            /* Filter otimizado */
             filter: drop-shadow(0 0 15px rgba(157, 0, 255, 0.6));
             opacity: 0;
             transform: translateY(50px);
             transition: opacity 1s ease, transform 1s ease;
             pointer-events: none;
-            will-change: transform, filter;
         }
 
-        .anime-girl.visible {
+        .anime.mostrar {
             opacity: 1;
             transform: translateY(0);
         }
 
-        .anime-girl img {
+        .anime img {
             width: 100%;
             height: auto;
             display: block;
-            /* Otimização de imagem */
-            loading: lazy;
         }
 
-        /* Container principal */
-        .container {
+        .principal {
             max-width: 500px;
             width: 100%;
-            background: var(--card-bg);
+            background: var(--card);
             border-radius: 12px;
             padding: 30px;
             position: relative;
             z-index: 10;
             border: 1px solid rgba(157, 0, 255, 0.3);
             box-shadow: 
-                0 0 30px var(--glow-color),
+                0 0 30px var(--brilho),
                 inset 0 0 20px rgba(157, 0, 255, 0.1);
             backdrop-filter: blur(10px);
             overflow: hidden;
             display: none;
             opacity: 0;
             transform: translateY(20px);
-            will-change: transform, opacity;
+            margin: 0 auto;
         }
 
-        .container.visible {
+        .principal.mostrar {
             opacity: 1;
             transform: translateY(0);
         }
 
-        /* Borda animada otimizada */
-        .container::before {
+        .principal::before {
             content: '';
             position: absolute;
             top: 0;
@@ -170,14 +150,13 @@
             height: 2px;
             background: linear-gradient(90deg, 
                 transparent, 
-                var(--main-purple), 
-                var(--main-green), 
+                var(--roxo), 
+                var(--verde), 
                 transparent);
-            animation: borderFlow 6s linear infinite;
+            animation: bordaAnim 6s linear infinite;
         }
 
-        /* Header */
-        .header {
+        .topo {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -186,88 +165,84 @@
             border-bottom: 1px solid rgba(157, 0, 255, 0.3);
         }
 
-        .title {
+        .titulo {
             font-size: 1.3rem;
             font-weight: bold;
-            color: var(--main-purple);
+            color: var(--roxo);
             text-shadow: 0 0 10px rgba(157, 0, 255, 0.5);
             letter-spacing: 2px;
         }
 
-        .status {
+        .estado {
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .dot {
+        .ponto {
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: var(--main-purple);
-            animation: pulse 3s infinite;
-            box-shadow: 0 0 10px var(--main-purple);
+            background: var(--roxo);
+            animation: pulsar 3s infinite;
+            box-shadow: 0 0 10px var(--roxo);
         }
 
-        /* Player de música otimizado */
-        .music-player {
+        .player {
             background: rgba(5, 5, 15, 0.9);
             border-radius: 8px;
             padding: 15px;
             margin-bottom: 25px;
             border: 1px solid rgba(157, 0, 255, 0.2);
-            position: relative;
-            overflow: hidden;
             opacity: 0;
             transform: translateY(10px);
             transition: opacity 0.6s ease 0.3s, transform 0.6s ease 0.3s;
         }
 
-        .player-header {
+        .player-topo {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
         }
 
-        .player-title {
-            color: var(--main-purple);
+        .player-titulo {
+            color: var(--roxo);
             font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
-        .visualizer {
+        .visual {
             display: flex;
             align-items: center;
             gap: 3px;
             height: 20px;
         }
 
-        .bar {
+        .barra {
             width: 4px;
-            background: var(--main-purple);
+            background: var(--roxo);
             border-radius: 2px;
             opacity: 0.3;
             transform: scaleY(0.3);
             transition: transform 0.3s ease, opacity 0.3s ease;
         }
 
-        .bar.active {
-            animation: barPulse 0.8s ease-in-out infinite;
+        .barra.ativa {
+            animation: barraAnim 0.8s ease-in-out infinite;
             opacity: 0.7;
         }
 
-        .bar:nth-child(1) { animation-delay: 0.1s; height: 8px; }
-        .bar:nth-child(2) { animation-delay: 0.2s; height: 12px; }
-        .bar:nth-child(3) { animation-delay: 0.3s; height: 16px; }
-        .bar:nth-child(4) { animation-delay: 0.4s; height: 20px; }
-        .bar:nth-child(5) { animation-delay: 0.5s; height: 16px; }
-        .bar:nth-child(6) { animation-delay: 0.6s; height: 12px; }
-        .bar:nth-child(7) { animation-delay: 0.7s; height: 8px; }
+        .barra:nth-child(1) { animation-delay: 0.1s; height: 8px; }
+        .barra:nth-child(2) { animation-delay: 0.2s; height: 12px; }
+        .barra:nth-child(3) { animation-delay: 0.3s; height: 16px; }
+        .barra:nth-child(4) { animation-delay: 0.4s; height: 20px; }
+        .barra:nth-child(5) { animation-delay: 0.5s; height: 16px; }
+        .barra:nth-child(6) { animation-delay: 0.6s; height: 12px; }
+        .barra:nth-child(7) { animation-delay: 0.7s; height: 8px; }
 
-        /* Controles de volume com acessibilidade */
-        .volume-controls {
+        .controles-volume {
             position: fixed;
             top: 20px;
             left: 20px;
@@ -284,14 +259,14 @@
             transition: opacity 0.5s ease 0.8s;
         }
 
-        .volume-controls.visible {
+        .controles-volume.mostrar {
             opacity: 1;
         }
 
-        .volume-btn {
+        .botao-volume {
             background: transparent;
             border: none;
-            color: var(--main-purple);
+            color: var(--roxo);
             font-size: 1.2rem;
             cursor: pointer;
             width: 36px;
@@ -301,50 +276,36 @@
             justify-content: center;
             border-radius: 50%;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            /* Acessibilidade */
-            aria-label: "Controle de volume";
         }
 
-        .volume-btn:hover {
+        .botao-volume:hover {
             background: rgba(157, 0, 255, 0.2);
             transform: scale(1.1);
-            box-shadow: 0 0 15px var(--main-purple);
+            box-shadow: 0 0 15px var(--roxo);
         }
 
-        /* Slider com label acessível */
-        .volume-label {
-            display: none;
-        }
-
-        .volume-slider {
+        .controle-volume {
             width: 100px;
             -webkit-appearance: none;
             height: 6px;
             background: rgba(157, 0, 255, 0.2);
             border-radius: 3px;
             outline: none;
-            opacity: 1;
-            transition: all 0.3s ease;
-            /* Acessibilidade */
-            aria-label: "Nível do volume";
         }
 
-        .volume-slider::-webkit-slider-thumb {
+        .controle-volume::-webkit-slider-thumb {
             -webkit-appearance: none;
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background: var(--main-purple);
+            background: var(--roxo);
             cursor: pointer;
-            box-shadow: 0 0 10px var(--main-purple);
-            border: 2px solid var(--main-green);
+            box-shadow: 0 0 10px var(--roxo);
+            border: 2px solid var(--verde);
             transition: all 0.2s ease;
         }
 
-        /* Perfil otimizado */
-        .profile {
+        .perfil {
             text-align: center;
             margin-bottom: 40px;
             position: relative;
@@ -354,14 +315,14 @@
             transition: opacity 0.6s ease 0.5s, transform 0.6s ease 0.5s;
         }
 
-        .profile-container {
+        .container-perfil {
             position: relative;
             width: 160px;
             height: 160px;
             margin: 0 auto 20px;
         }
 
-        .aura {
+        .aura-perfil {
             position: absolute;
             top: -20px;
             left: -20px;
@@ -375,13 +336,11 @@
                 rgba(157, 0, 255, 0.2) 70%,
                 transparent 90%);
             z-index: 0;
-            /* Mais lento e suave */
-            animation: auraGlow 6s ease-in-out infinite;
+            animation: auraAnim 6s ease-in-out infinite;
             filter: blur(10px);
-            will-change: transform, opacity;
         }
 
-        .profile-img {
+        .foto-perfil {
             width: 160px;
             height: 160px;
             border-radius: 50%;
@@ -393,42 +352,43 @@
                 0 0 60px rgba(157, 0, 255, 0.7),
                 inset 0 0 30px rgba(157, 0, 255, 0.2);
             transition: all 0.3s ease;
-            will-change: transform, border-color;
         }
 
-        .profile-img img {
+        .foto-perfil:hover {
+            transform: scale(1.05);
+            border-color: rgba(157, 0, 255, 0.6);
+            box-shadow: 
+                0 0 80px rgba(157, 0, 255, 0.9),
+                inset 0 0 40px rgba(157, 0, 255, 0.3);
+        }
+
+        .foto-perfil img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             border-radius: 50%;
-            /* Filter otimizado */
             filter: contrast(110%) brightness(1.1);
-            position: relative;
-            z-index: 1;
-            loading: lazy;
         }
 
-        .username {
+        .nome {
             font-size: 2.4rem;
             font-weight: bold;
-            background: linear-gradient(45deg, var(--main-purple), var(--main-green));
+            background: linear-gradient(45deg, var(--roxo), var(--verde));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             margin-bottom: 5px;
             text-transform: uppercase;
             letter-spacing: 3px;
-            position: relative;
             text-shadow: 0 0 15px rgba(157, 0, 255, 0.5);
         }
 
-        .username::after {
+        .nome::after {
             content: '_';
-            animation: blink 1.5s infinite;
+            animation: piscar 1.5s infinite;
         }
 
-        /* Links otimizados */
-        .links {
+        .lista-links {
             display: flex;
             flex-direction: column;
             gap: 12px;
@@ -438,7 +398,7 @@
             transition: opacity 0.6s ease 0.7s, transform 0.6s ease 0.7s;
         }
 
-        .link {
+        .item-link {
             display: flex;
             align-items: center;
             background: rgba(5, 5, 15, 0.8);
@@ -448,29 +408,26 @@
             color: #e0e0ff;
             transition: all 0.3s ease;
             border: 1px solid rgba(157, 0, 255, 0.2);
-            position: relative;
-            overflow: hidden;
             opacity: 0;
             transform: translateX(-20px);
-            will-change: transform, box-shadow;
         }
 
-        .link:nth-child(1) { transition: opacity 0.4s ease 0.8s, transform 0.4s ease 0.8s; }
-        .link:nth-child(2) { transition: opacity 0.4s ease 0.9s, transform 0.4s ease 0.9s; }
-        .link:nth-child(3) { transition: opacity 0.4s ease 1.0s, transform 0.4s ease 1.0s; }
-        .link:nth-child(4) { transition: opacity 0.4s ease 1.1s, transform 0.4s ease 1.1s; }
-        .link:nth-child(5) { transition: opacity 0.4s ease 1.2s, transform 0.4s ease 1.2s; }
+        .item-link:nth-child(1) { transition: opacity 0.4s ease 0.8s, transform 0.4s ease 0.8s; }
+        .item-link:nth-child(2) { transition: opacity 0.4s ease 0.9s, transform 0.4s ease 0.9s; }
+        .item-link:nth-child(3) { transition: opacity 0.4s ease 1.0s, transform 0.4s ease 1.0s; }
+        .item-link:nth-child(4) { transition: opacity 0.4s ease 1.1s, transform 0.4s ease 1.1s; }
+        .item-link:nth-child(5) { transition: opacity 0.4s ease 1.2s, transform 0.4s ease 1.2s; }
 
-        .link.visible {
+        .item-link.mostrar {
             opacity: 1;
             transform: translateX(0);
         }
 
-        .link:active {
+        .item-link:active {
             transform: scale(0.98) !important;
         }
 
-        .link-icon {
+        .icone-link {
             width: 40px;
             height: 40px;
             display: flex;
@@ -483,44 +440,40 @@
             border: 1px solid;
         }
 
-        .link-text {
+        .texto-link {
             flex: 1;
         }
 
-        .link-name {
+        .nome-link {
             font-weight: 600;
             font-size: 1rem;
-            color: var(--main-purple);
+            color: var(--roxo);
             margin-bottom: 4px;
         }
 
-        .link-desc {
+        .desc-link {
             font-size: 0.8rem;
             color: #aaaaff;
-            font-family: monospace;
         }
 
-        .link-arrow {
-            color: var(--main-purple);
+        .seta-link {
+            color: var(--roxo);
             font-size: 1.2rem;
             transition: transform 0.3s ease;
         }
 
-        /* Cores específicas dos ícones */
         .instagram { border-color: #E1306C; color: #E1306C; }
         .tiktok { border-color: #fff; color: #fff; }
         .discord { border-color: #5865F2; color: #5865F2; }
         .spotify { border-color: #1DB954; color: #1DB954; }
         .reddit { border-color: #FF4500; color: #FF4500; }
 
-        /* Footer */
-        .footer {
+        .rodape {
             text-align: center;
             font-size: 0.7rem;
             color: #6666ff;
             padding-top: 15px;
             border-top: 1px solid rgba(157, 0, 255, 0.3);
-            font-family: monospace;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -529,12 +482,11 @@
             transition: opacity 0.6s ease 1.3s, transform 0.6s ease 1.3s;
         }
 
-        .system-time {
+        .tempo-sistema {
             font-size: 0.7rem;
         }
 
-        /* Connections otimizado */
-        .connections {
+        .contador-visitas {
             position: fixed;
             bottom: 20px;
             right: 20px;
@@ -551,27 +503,24 @@
             transition: opacity 0.6s ease 1.4s, transform 0.3s ease;
         }
 
-        .connections.visible {
+        .contador-visitas.mostrar {
             opacity: 1;
         }
 
-        .eye-icon {
+        .icone-olho {
             width: 32px;
             height: 32px;
-            filter: drop-shadow(0 0 5px var(--main-purple));
+            filter: drop-shadow(0 0 5px var(--roxo));
             object-fit: contain;
-            loading: lazy;
         }
 
-        .view-count {
-            color: var(--main-purple);
+        .numero-visitas {
+            color: var(--roxo);
             font-weight: bold;
             font-size: 1.1rem;
-            font-family: monospace;
         }
 
-        /* Animações otimizadas - mais lentas e menos intensas */
-        @keyframes wallpaperGlitch {
+        @keyframes fundoAnim {
             0%, 98%, 100% {
                 opacity: 0.35;
                 transform: translate(0);
@@ -582,32 +531,32 @@
             }
         }
 
-        @keyframes scan {
+        @keyframes varrer {
             0% { background-position: 0 0; }
             100% { background-position: 0 100%; }
         }
 
-        @keyframes borderFlow {
+        @keyframes bordaAnim {
             0% { background-position: -100% 0; }
             100% { background-position: 200% 0; }
         }
 
-        @keyframes pulse {
+        @keyframes pulsar {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.6; }
         }
 
-        @keyframes barPulse {
+        @keyframes barraAnim {
             0%, 100% { transform: scaleY(0.3); }
             50% { transform: scaleY(1); }
         }
 
-        @keyframes blink {
+        @keyframes piscar {
             0%, 50% { opacity: 1; }
             51%, 100% { opacity: 0; }
         }
 
-        @keyframes auraGlow {
+        @keyframes auraAnim {
             0%, 100% { 
                 opacity: 0.6;
                 transform: scale(0.95);
@@ -618,8 +567,7 @@
             }
         }
 
-        /* Glitch forte ocasional - mais raro */
-        @keyframes strongGlitch {
+        @keyframes glitchForte {
             0%, 97%, 100% {
                 transform: translate(0);
                 opacity: 0.35;
@@ -634,103 +582,91 @@
             }
         }
 
-        /* ========== ESTILOS MOBILE ========== */
         @media (max-width: 768px) {
             body {
                 padding: 15px;
-                min-height: 100vh;
-                height: auto;
                 display: block;
                 overflow-y: auto;
                 -webkit-overflow-scrolling: touch;
             }
             
-            .wallpaper {
+            .fundo {
                 opacity: 0.25;
-                animation-duration: 30s; /* Mais lento no mobile */
+                animation-duration: 30s;
             }
             
-            .anime-girl {
+            .anime {
                 width: 180px;
-                position: fixed;
                 bottom: 10px;
                 left: 10px;
-                z-index: 3;
                 opacity: 0.7;
             }
             
-            .container {
+            .principal {
                 max-width: 100%;
                 padding: 20px;
                 margin-top: 20px;
                 margin-bottom: 100px;
-                min-height: auto;
-                height: auto;
-                display: block;
-                position: relative;
-                overflow: visible;
-                /* Desliga blur no mobile para performance */
                 backdrop-filter: none;
                 background: rgba(10, 10, 20, 0.95);
             }
             
-            .header {
+            .topo {
                 flex-direction: column;
                 gap: 15px;
                 text-align: center;
                 margin-bottom: 20px;
             }
             
-            .profile {
+            .perfil {
                 margin-bottom: 30px;
             }
             
-            .profile-container {
+            .container-perfil {
                 width: 120px;
                 height: 120px;
             }
             
-            .profile-img {
+            .foto-perfil {
                 width: 120px;
                 height: 120px;
             }
             
-            .aura {
-                animation-duration: 8s; /* Mais lento no mobile */
+            .aura-perfil {
+                animation-duration: 8s;
             }
             
-            .username {
+            .nome {
                 font-size: 1.8rem;
                 letter-spacing: 2px;
             }
             
-            .links {
+            .lista-links {
                 gap: 10px;
                 margin-bottom: 20px;
             }
             
-            .link {
+            .item-link {
                 padding: 14px 16px;
-                /* Feedback tátil melhor */
                 -webkit-tap-highlight-color: rgba(157, 0, 255, 0.2);
             }
             
-            .link-icon {
+            .icone-link {
                 width: 36px;
                 height: 36px;
                 margin-right: 12px;
                 font-size: 1.1rem;
             }
             
-            .link-name {
+            .nome-link {
                 font-size: 0.9rem;
             }
             
-            .link-desc {
+            .desc-link {
                 font-size: 0.75rem;
             }
             
-            .volume-controls {
+            .controles-volume {
                 top: 10px;
                 left: 10px;
                 padding: 10px 12px;
@@ -738,131 +674,128 @@
                 z-index: 200;
             }
             
-            .volume-btn {
+            .botao-volume {
                 width: 32px;
                 height: 32px;
                 font-size: 1rem;
             }
             
-            .volume-slider {
+            .controle-volume {
                 width: 80px;
             }
             
-            .connections {
+            .contador-visitas {
                 bottom: 10px;
                 right: 10px;
                 padding: 10px 12px;
                 z-index: 200;
             }
             
-            .music-player {
+            .player {
                 padding: 12px;
                 margin-bottom: 20px;
             }
             
-            .player-title {
+            .player-titulo {
                 font-size: 0.8rem;
             }
             
-            .visualizer {
+            .visual {
                 gap: 2px;
             }
             
-            .bar {
+            .barra {
                 width: 3px;
             }
             
-            .footer {
+            .rodape {
                 flex-direction: column;
                 gap: 8px;
                 text-align: center;
                 padding-top: 12px;
             }
             
-            .system-time {
+            .tempo-sistema {
                 font-size: 0.65rem;
             }
             
-            /* Pausa animações quando rolando */
-            body.scrolling .wallpaper,
-            body.scrolling .scanlines,
-            body.scrolling .aura,
-            body.scrolling .dot,
-            body.scrolling .container::before {
+            body.rolando .fundo,
+            body.rolando .linhas,
+            body.rolando .aura-perfil,
+            body.rolando .ponto,
+            body.rolando .principal::before {
                 animation-play-state: paused !important;
             }
             
-            /* Ajustes para telas muito pequenas */
             @media (max-height: 700px) {
-                .anime-girl {
+                .anime {
                     display: none;
                 }
                 
-                .container {
+                .principal {
                     margin-bottom: 50px;
                 }
                 
-                .profile {
+                .perfil {
                     margin-bottom: 20px;
                 }
                 
-                .profile-container {
+                .container-perfil {
                     width: 100px;
                     height: 100px;
                 }
                 
-                .profile-img {
+                .foto-perfil {
                     width: 100px;
                     height: 100px;
                 }
                 
-                .username {
+                .nome {
                     font-size: 1.5rem;
                 }
                 
-                .links {
+                .lista-links {
                     gap: 8px;
                 }
                 
-                .link {
+                .item-link {
                     padding: 12px 14px;
                 }
             }
             
-            /* Ajustes para iPhone SE e similares */
             @media (max-width: 375px) {
-                .container {
+                .principal {
                     padding: 15px;
                 }
                 
-                .username {
+                .nome {
                     font-size: 1.4rem;
                 }
                 
-                .link {
+                .item-link {
                     padding: 10px 12px;
                 }
                 
-                .link-icon {
+                .icone-link {
                     width: 32px;
                     height: 32px;
                     margin-right: 10px;
                 }
                 
-                .link-name {
+                .nome-link {
                     font-size: 0.85rem;
                 }
                 
-                .link-desc {
+                .desc-link {
                     font-size: 0.7rem;
                 }
                 
-                .volume-controls {
+                .controles-volume {
                     left: 5px;
                     top: 5px;
                 }
                 
-                .connections {
+                .contador-visitas {
                     right: 5px;
                     bottom: 5px;
                 }
@@ -870,496 +803,447 @@
         }
 
         @media (min-width: 769px) {
-            .anime-girl {
-                display: block;
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Overlay inicial -->
-    <div id="startOverlay" role="button" aria-label="Clique para iniciar" tabindex="0">
-        <div class="start-message">CLIQUE PARA INICIAR</div>
+    <div id="inicio" role="button" tabindex="0">
+        <div class="mensagem-inicio">CLIQUE PARA INICIAR</div>
     </div>
 
-    <!-- Wallpaper otimizado -->
-    <div class="wallpaper"></div>
+    <div class="fundo"></div>
     
-    <!-- Scanlines otimizadas -->
-    <div class="scanlines"></div>
+    <div class="linhas"></div>
 
-    <!-- Imagem de anime otimizada -->
-    <div class="anime-girl">
-        <img src="https://raw.githubusercontent.com/Misoto7/misoto/refs/heads/main/anime.png" alt="Ilustração de personagem anime" loading="lazy">
+    <div class="anime">
+        <img src="https://raw.githubusercontent.com/Misoto7/misoto/refs/heads/main/anime.png" alt="Anime" loading="lazy">
     </div>
 
-    <!-- Connections otimizado -->
-    <div class="connections">
-        <img src="https://raw.githubusercontent.com/Misoto7/misoto/refs/heads/main/olhol.jpg" alt="Ícone de olho" class="eye-icon" loading="lazy">
-        <span class="view-count" id="viewCount">1042</span>
+    <div class="contador-visitas">
+        <img src="https://raw.githubusercontent.com/Misoto7/misoto/refs/heads/main/olhol.jpg" alt="Olho" class="icone-olho" loading="lazy">
+        <span class="numero-visitas" id="contador">1042</span>
     </div>
 
-    <!-- Controle de volume acessível -->
-    <div class="volume-controls">
-        <button class="volume-btn" id="volumeBtn" aria-label="Alternar mudo">
+    <div class="controles-volume">
+        <button class="botao-volume" id="botaoVolume">
             <i class="fas fa-volume-up"></i>
         </button>
-        <label class="volume-label" for="volumeSlider">Volume</label>
-        <input type="range" min="0" max="100" value="100" class="volume-slider" id="volumeSlider" aria-label="Controle de volume">
+        <input type="range" min="0" max="100" value="100" class="controle-volume" id="controleVolume">
     </div>
 
-    <!-- Container principal -->
-    <div class="container" id="mainContent">
-        <div class="header">
-            <div class="title">SISTEMA::LINKS</div>
-            <div class="status">
-                <div class="dot"></div>
-                <span style="color: var(--main-purple); font-size: 0.8rem;">ONLINE</span>
+    <div class="principal" id="conteudo">
+        <div class="topo">
+            <div class="titulo">SISTEMA::LINKS</div>
+            <div class="estado">
+                <div class="ponto"></div>
+                <span style="color: var(--roxo); font-size: 0.8rem;">ONLINE</span>
             </div>
         </div>
 
-        <!-- Player de música otimizado -->
-        <div class="music-player" id="musicPlayer">
-            <div class="player-header">
-                <div class="player-title">STREAM DE ÁUDIO :: ATIVO</div>
-                <div class="visualizer" id="visualizer">
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                    <div class="bar"></div>
+        <div class="player" id="player">
+            <div class="player-topo">
+                <div class="player-titulo">STREAM DE ÁUDIO :: ATIVO</div>
+                <div class="visual" id="visual">
+                    <div class="barra"></div>
+                    <div class="barra"></div>
+                    <div class="barra"></div>
+                    <div class="barra"></div>
+                    <div class="barra"></div>
+                    <div class="barra"></div>
+                    <div class="barra"></div>
                 </div>
             </div>
         </div>
 
-        <!-- Perfil otimizado -->
-        <div class="profile" id="profileSection">
-            <div class="profile-container">
-                <div class="aura"></div>
-                <div class="profile-img">
-                    <img src="https://raw.githubusercontent.com/Misoto7/misoto/main/foto.jpg" alt="Foto de perfil do Misoto" loading="lazy">
+        <div class="perfil" id="perfil">
+            <div class="container-perfil">
+                <div class="aura-perfil"></div>
+                <div class="foto-perfil">
+                    <img src="https://raw.githubusercontent.com/Misoto7/misoto/main/foto.jpg" alt="Misoto" loading="lazy">
                 </div>
             </div>
-            <h1 class="username">MISOTO</h1>
+            <h1 class="nome">MISOTO</h1>
         </div>
 
-        <!-- Links otimizados com event delegation -->
-        <div class="links" id="linksSection">
-            <a href="https://www.instagram.com/misoto._/" target="_blank" class="link" data-social="instagram">
-                <div class="link-icon instagram">
+        <div class="lista-links" id="listaLinks">
+            <a href="https://www.instagram.com/misoto._/" target="_blank" class="item-link" data-social="instagram">
+                <div class="icone-link instagram">
                     <i class="fab fa-instagram"></i>
                 </div>
-                <div class="link-text">
-                    <div class="link-name">INSTAGRAM</div>
-                    <div class="link-desc">@misoto._</div>
+                <div class="texto-link">
+                    <div class="nome-link">INSTAGRAM</div>
+                    <div class="desc-link">@misoto._</div>
                 </div>
-                <div class="link-arrow">
+                <div class="seta-link">
                     <i class="fas fa-chevron-right"></i>
                 </div>
             </a>
 
-            <a href="https://www.tiktok.com/@misoto" target="_blank" class="link" data-social="tiktok">
-                <div class="link-icon tiktok">
+            <a href="https://www.tiktok.com/@misoto" target="_blank" class="item-link" data-social="tiktok">
+                <div class="icone-link tiktok">
                     <i class="fab fa-tiktok"></i>
                 </div>
-                <div class="link-text">
-                    <div class="link-name">TIKTOK</div>
-                    <div class="link-desc">@misoto</div>
+                <div class="texto-link">
+                    <div class="nome-link">TIKTOK</div>
+                    <div class="desc-link">@misoto</div>
                 </div>
-                <div class="link-arrow">
+                <div class="seta-link">
                     <i class="fas fa-chevron-right"></i>
                 </div>
             </a>
 
-            <a href="#" class="link" data-social="discord" id="discordLink">
-                <div class="link-icon discord">
+            <a href="#" class="item-link" data-social="discord" id="linkDiscord">
+                <div class="icone-link discord">
                     <i class="fab fa-discord"></i>
                 </div>
-                <div class="link-text">
-                    <div class="link-name">DISCORD</div>
-                    <div class="link-desc">misoto_</div>
+                <div class="texto-link">
+                    <div class="nome-link">DISCORD</div>
+                    <div class="desc-link">misoto_</div>
                 </div>
-                <div class="link-arrow">
+                <div class="seta-link">
                     <i class="fas fa-chevron-right"></i>
                 </div>
             </a>
 
-            <a href="https://open.spotify.com/user/31fa7yqasf7zfznihgu7vn5lweiy" target="_blank" class="link" data-social="spotify">
-                <div class="link-icon spotify">
+            <a href="https://open.spotify.com/user/31fa7yqasf7zfznihgu7vn5lweiy" target="_blank" class="item-link" data-social="spotify">
+                <div class="icone-link spotify">
                     <i class="fab fa-spotify"></i>
                 </div>
-                <div class="link-text">
-                    <div class="link-name">SPOTIFY</div>
-                    <div class="link-desc">PLAYLISTS</div>
+                <div class="texto-link">
+                    <div class="nome-link">SPOTIFY</div>
+                    <div class="desc-link">PLAYLISTS</div>
                 </div>
-                <div class="link-arrow">
+                <div class="seta-link">
                     <i class="fas fa-chevron-right"></i>
                 </div>
             </a>
 
-            <a href="https://www.reddit.com/user/misoto_/" target="_blank" class="link" data-social="reddit">
-                <div class="link-icon reddit">
+            <a href="https://www.reddit.com/user/misoto_/" target="_blank" class="item-link" data-social="reddit">
+                <div class="icone-link reddit">
                     <i class="fab fa-reddit"></i>
                 </div>
-                <div class="link-text">
-                    <div class="link-name">REDDIT</div>
-                    <div class="link-desc">u/misoto_</div>
+                <div class="texto-link">
+                    <div class="nome-link">REDDIT</div>
+                    <div class="desc-link">u/misoto_</div>
                 </div>
-                <div class="link-arrow">
+                <div class="seta-link">
                     <i class="fas fa-chevron-right"></i>
                 </div>
             </a>
         </div>
 
-        <!-- Footer -->
-        <div class="footer" id="footerSection">
-            <div class="system-time">
-                SISTEMA: <span id="currentDate"></span> | v2.3.1
+        <div class="rodape" id="rodape">
+            <div class="tempo-sistema">
+                SISTEMA: <span id="dataAtual"></span> | v2.3.1
             </div>
         </div>
     </div>
 
-    <!-- Áudio otimizado -->
-    <audio id="backgroundMusic" loop preload="metadata">
+    <audio id="musica" loop preload="metadata">
         <source src="https://raw.githubusercontent.com/Misoto7/misoto/main/music.mp3" type="audio/mpeg">
     </audio>
 
     <script>
-        // Sistema de visualizações CORRIGIDO
-        function getTotalViews() {
+        function contarVisitas() {
             try {
-                const today = new Date().toISOString().split('T')[0];
-                const viewsToday = localStorage.getItem('viewsToday') || '{}';
-                const viewsObj = JSON.parse(viewsToday);
+                const hoje = new Date().toISOString().split('T')[0];
+                const visitasHoje = localStorage.getItem('visitasHoje') || '{}';
+                const objVisitas = JSON.parse(visitasHoje);
                 
-                // ID único por usuário (persistente)
-                let userId = localStorage.getItem('misoto_userId');
-                if (!userId) {
-                    userId = 'user_' + Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
-                    localStorage.setItem('misoto_userId', userId);
+                let idUsuario = localStorage.getItem('idUsuario');
+                if (!idUsuario) {
+                    idUsuario = 'usr_' + Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
+                    localStorage.setItem('idUsuario', idUsuario);
                 }
                 
-                // Verifica se este usuário já foi contado hoje
-                const countedKey = `counted_${today}_${userId}`;
-                if (!localStorage.getItem(countedKey)) {
-                    // Novo usuário hoje
-                    if (!viewsObj[today]) {
-                        viewsObj[today] = 0;
+                const chaveContado = `contado_${hoje}_${idUsuario}`;
+                if (!localStorage.getItem(chaveContado)) {
+                    if (!objVisitas[hoje]) {
+                        objVisitas[hoje] = 0;
                     }
-                    viewsObj[today]++;
-                    localStorage.setItem('viewsToday', JSON.stringify(viewsObj));
-                    localStorage.setItem(countedKey, 'true');
+                    objVisitas[hoje]++;
+                    localStorage.setItem('visitasHoje', JSON.stringify(objVisitas));
+                    localStorage.setItem(chaveContado, 'sim');
                 }
                 
-                // Calcula total
-                let total = 1042; // Base inicial
-                for (const date in viewsObj) {
-                    total += viewsObj[date];
+                let total = 1042;
+                for (const data in objVisitas) {
+                    total += objVisitas[data];
                 }
                 
                 return total;
-            } catch (error) {
-                console.error('Erro no contador:', error);
+            } catch (erro) {
                 return 1042;
             }
         }
         
-        // Elementos DOM
-        const startOverlay = document.getElementById('startOverlay');
-        const mainContent = document.getElementById('mainContent');
-        const music = document.getElementById('backgroundMusic');
-        const volumeSlider = document.getElementById('volumeSlider');
-        const volumeBtn = document.getElementById('volumeBtn');
-        const bars = document.querySelectorAll('.bar');
-        const viewCountElement = document.getElementById('viewCount');
-        const wallpaper = document.querySelector('.wallpaper');
-        const animeGirl = document.querySelector('.anime-girl');
-        const connections = document.querySelector('.connections');
-        const volumeControls = document.querySelector('.volume-controls');
-        const musicPlayer = document.getElementById('musicPlayer');
-        const profileSection = document.getElementById('profileSection');
-        const linksSection = document.getElementById('linksSection');
-        const footerSection = document.getElementById('footerSection');
-        const discordLink = document.getElementById('discordLink');
+        const inicio = document.getElementById('inicio');
+        const conteudo = document.getElementById('conteudo');
+        const musica = document.getElementById('musica');
+        const controleVolume = document.getElementById('controleVolume');
+        const botaoVolume = document.getElementById('botaoVolume');
+        const barras = document.querySelectorAll('.barra');
+        const contador = document.getElementById('contador');
+        const fundo = document.querySelector('.fundo');
+        const anime = document.querySelector('.anime');
+        const contadorVisitas = document.querySelector('.contador-visitas');
+        const controlesVolume = document.querySelector('.controles-volume');
+        const player = document.getElementById('player');
+        const perfil = document.getElementById('perfil');
+        const listaLinks = document.getElementById('listaLinks');
+        const rodape = document.getElementById('rodape');
+        const linkDiscord = document.getElementById('linkDiscord');
         
-        // Configurações iniciais
-        music.volume = 1.0;
-        volumeSlider.value = 100;
+        musica.volume = 1.0;
+        controleVolume.value = 100;
         
-        // Carregar visualizações
-        const totalViews = getTotalViews();
-        viewCountElement.textContent = totalViews.toString();
+        const totalVisitas = contarVisitas();
+        contador.textContent = totalVisitas.toString();
         
-        // Variáveis de controle
-        let isMuted = false;
-        let glitchTimer = null;
+        let mute = false;
+        let timerGlitch = null;
         
-        // ==================== OTIMIZAÇÕES DE PERFORMANCE ====================
-        
-        // 1. Pausar animações quando a aba não está visível
         document.addEventListener('visibilitychange', () => {
             if (document.hidden) {
-                document.body.classList.add('paused');
-                if (glitchTimer) clearInterval(glitchTimer);
+                document.body.classList.add('pausado');
+                if (timerGlitch) clearInterval(timerGlitch);
             } else {
-                document.body.classList.remove('paused');
-                setupGlitchTimer();
+                document.body.classList.remove('pausado');
+                configurarTimerGlitch();
             }
         });
         
-        // 2. Pausar animações no mobile durante scroll
         if (window.innerWidth <= 768) {
-            let scrollTimeout;
+            let timerScroll;
             window.addEventListener('scroll', () => {
-                document.body.classList.add('scrolling');
-                clearTimeout(scrollTimeout);
-                scrollTimeout = setTimeout(() => {
-                    document.body.classList.remove('scrolling');
+                document.body.classList.add('rolando');
+                clearTimeout(timerScroll);
+                timerScroll = setTimeout(() => {
+                    document.body.classList.remove('rolando');
                 }, 100);
             }, { passive: true });
         }
         
-        // 3. Sistema de inicialização sequencial otimizado
-        function startEverything() {
-            // Fade out do overlay
-            startOverlay.style.opacity = '0';
-            startOverlay.style.transition = 'opacity 0.5s';
+        function iniciarTudo() {
+            inicio.style.opacity = '0';
+            inicio.style.transition = 'opacity 0.5s';
             
             setTimeout(() => {
-                startOverlay.style.display = 'none';
+                inicio.style.display = 'none';
                 
-                // Mostrar terminal
-                mainContent.style.display = 'block';
+                conteudo.style.display = 'block';
                 setTimeout(() => {
-                    mainContent.classList.add('visible');
+                    conteudo.classList.add('mostrar');
                 }, 10);
                 
-                // Sequência de animações otimizada
-                const animations = [
-                    { el: musicPlayer, delay: 300 },
-                    { el: profileSection, delay: 500 },
-                    { el: linksSection, delay: 700 },
-                    { el: footerSection, delay: 1300 }
+                const animacoes = [
+                    { el: player, delay: 300 },
+                    { el: perfil, delay: 500 },
+                    { el: listaLinks, delay: 700 },
+                    { el: rodape, delay: 1300 }
                 ];
                 
-                animations.forEach(({ el, delay }) => {
+                animacoes.forEach(({ el, delay }) => {
                     setTimeout(() => {
                         el.style.opacity = '1';
                         el.style.transform = 'translateY(0)';
                     }, delay);
                 });
                 
-                // Animar links individualmente
                 setTimeout(() => {
-                    const links = document.querySelectorAll('.link');
+                    const links = document.querySelectorAll('.item-link');
                     links.forEach((link, index) => {
                         setTimeout(() => {
-                            link.classList.add('visible');
-                        }, index * 80); // Mais rápido
+                            link.classList.add('mostrar');
+                        }, index * 80);
                     });
                 }, 700);
                 
-                // Elementos finais
                 setTimeout(() => {
-                    animeGirl.classList.add('visible');
-                    connections.classList.add('visible');
-                    volumeControls.classList.add('visible');
+                    anime.classList.add('mostrar');
+                    contadorVisitas.classList.add('mostrar');
+                    controlesVolume.classList.add('mostrar');
                     
-                    // Iniciar música
-                    startMusic();
-                    
-                    // Configurar timers de efeito (otimizados)
-                    setupGlitchTimer();
-                    setupAnimeEffect();
+                    iniciarMusica();
+                    configurarTimerGlitch();
+                    configurarEfeitoAnime();
                 }, 1400);
                 
-            }, 300); // Reduzido de 500ms
+            }, 300);
         }
         
-        // 4. Função para iniciar música otimizada
-        function startMusic() {
-            music.play().catch(() => {
-                // Fallback para interação necessária
-                const initAudio = () => {
-                    music.play();
-                    updateVisualizer();
-                    document.removeEventListener('click', initAudio);
+        function iniciarMusica() {
+            musica.play().catch(() => {
+                const iniciarAudio = () => {
+                    musica.play();
+                    atualizarVisual();
+                    document.removeEventListener('click', iniciarAudio);
                 };
-                document.addEventListener('click', initAudio);
+                document.addEventListener('click', iniciarAudio);
             });
         }
         
-        // 5. Controles de volume otimizados
-        volumeSlider.addEventListener('input', function() {
-            const newVolume = this.value / 100;
-            music.volume = newVolume;
+        controleVolume.addEventListener('input', function() {
+            const novoVolume = this.value / 100;
+            musica.volume = novoVolume;
             
-            if (newVolume > 0 && isMuted) {
-                isMuted = false;
-                music.muted = false;
+            if (novoVolume > 0 && mute) {
+                mute = false;
+                musica.muted = false;
             }
             
-            updateVolumeIcon();
+            atualizarIconeVolume();
         }, { passive: true });
         
-        volumeBtn.addEventListener('click', function() {
-            isMuted = !isMuted;
-            music.muted = isMuted;
+        botaoVolume.addEventListener('click', function() {
+            mute = !mute;
+            musica.muted = mute;
             
-            if (isMuted) {
-                volumeSlider.value = 0;
+            if (mute) {
+                controleVolume.value = 0;
             } else {
-                volumeSlider.value = music.volume * 100;
+                controleVolume.value = musica.volume * 100;
             }
             
-            updateVolumeIcon();
-            updateVisualizer();
+            atualizarIconeVolume();
+            atualizarVisual();
         });
         
-        function updateVolumeIcon() {
-            const volume = volumeSlider.value;
-            let iconClass = 'fas fa-volume-up';
+        function atualizarIconeVolume() {
+            const volume = controleVolume.value;
+            let classeIcone = 'fas fa-volume-up';
             
-            if (isMuted || volume == 0) {
-                iconClass = 'fas fa-volume-mute';
+            if (mute || volume == 0) {
+                classeIcone = 'fas fa-volume-mute';
             } else if (volume < 30) {
-                iconClass = 'fas fa-volume-down';
+                classeIcone = 'fas fa-volume-down';
             }
             
-            volumeBtn.innerHTML = `<i class="${iconClass}"></i>`;
+            botaoVolume.innerHTML = `<i class="${classeIcone}"></i>`;
         }
         
-        // 6. Visualizer otimizado (só anima quando toca)
-        function updateVisualizer() {
-            const isPlaying = !music.paused && !music.muted;
-            bars.forEach(bar => {
-                if (isPlaying) {
-                    bar.classList.add('active');
+        function atualizarVisual() {
+            const tocando = !musica.paused && !musica.muted;
+            barras.forEach(barra => {
+                if (tocando) {
+                    barra.classList.add('ativa');
                 } else {
-                    bar.classList.remove('active');
-                    bar.style.transform = 'scaleY(0.3)';
+                    barra.classList.remove('ativa');
+                    barra.style.transform = 'scaleY(0.3)';
                 }
             });
         }
         
-        // 7. Event delegation para links
-        linksSection.addEventListener('mouseenter', (e) => {
-            const link = e.target.closest('.link');
-            if (link && link !== discordLink) {
+        listaLinks.addEventListener('mouseenter', (e) => {
+            const link = e.target.closest('.item-link');
+            if (link && link !== linkDiscord) {
                 link.style.boxShadow = '0 0 25px rgba(157, 0, 255, 0.3)';
                 link.style.transform = 'translateX(5px)';
             }
         }, true);
         
-        linksSection.addEventListener('mouseleave', (e) => {
-            const link = e.target.closest('.link');
-            if (link && link !== discordLink) {
+        listaLinks.addEventListener('mouseleave', (e) => {
+            const link = e.target.closest('.item-link');
+            if (link && link !== linkDiscord) {
                 link.style.boxShadow = '';
                 link.style.transform = '';
             }
         }, true);
         
-        // 8. Efeito de glitch otimizado (único timer)
-        function setupGlitchTimer() {
-            if (glitchTimer) clearInterval(glitchTimer);
+        function configurarTimerGlitch() {
+            if (timerGlitch) clearInterval(timerGlitch);
             
-            glitchTimer = setInterval(() => {
-                if (Math.random() > 0.8) { // Mais raro
-                    triggerStrongGlitch();
+            timerGlitch = setInterval(() => {
+                if (Math.random() > 0.8) {
+                    ativarGlitchForte();
                 }
-            }, 15000); // Intervalo maior
+            }, 15000);
         }
         
-        function triggerStrongGlitch() {
-            wallpaper.style.animation = 'strongGlitch 0.5s';
-            animeGirl.style.filter = 'drop-shadow(0 0 25px rgba(157, 0, 255, 0.8))';
+        function ativarGlitchForte() {
+            fundo.style.animation = 'glitchForte 0.5s';
+            anime.style.filter = 'drop-shadow(0 0 25px rgba(157, 0, 255, 0.8))';
             
             setTimeout(() => {
-                wallpaper.style.animation = 'wallpaperGlitch 20s infinite linear';
-                animeGirl.style.filter = 'drop-shadow(0 0 15px rgba(157, 0, 255, 0.6))';
+                fundo.style.animation = 'fundoAnim 20s infinite linear';
+                anime.style.filter = 'drop-shadow(0 0 15px rgba(157, 0, 255, 0.6))';
             }, 500);
         }
         
-        // 9. Efeito anime otimizado
-        function setupAnimeEffect() {
-            // Só no desktop
+        function configurarEfeitoAnime() {
             if (window.innerWidth > 768) {
                 setInterval(() => {
                     if (Math.random() > 0.5) {
-                        animeGirl.style.transform = `translateY(${Math.random() * 2 - 1}px)`;
+                        anime.style.transform = `translateY(${Math.random() * 2 - 1}px)`;
                         setTimeout(() => {
-                            animeGirl.style.transform = 'translateY(0)';
+                            anime.style.transform = 'translateY(0)';
                         }, 200);
                     }
                 }, 4000);
             }
         }
         
-        // 10. Data e hora otimizada
-        const currentDateElement = document.getElementById('currentDate');
-        function updateDateTime() {
-            const now = new Date();
-            currentDateElement.textContent = now.toLocaleDateString('pt-BR') + ' ' + 
-                                           now.toLocaleTimeString('pt-BR', { hour12: false }).substr(0, 5);
+        const dataAtual = document.getElementById('dataAtual');
+        function atualizarDataHora() {
+            const agora = new Date();
+            dataAtual.textContent = agora.toLocaleDateString('pt-BR') + ' ' + 
+                                   agora.toLocaleTimeString('pt-BR', { hour12: false }).substr(0, 5);
         }
         
-        // Atualizar a cada minuto (não a cada segundo)
-        updateDateTime();
-        setInterval(updateDateTime, 60000);
+        atualizarDataHora();
+        setInterval(atualizarDataHora, 60000);
         
-        // 11. Efeito de digitação otimizado
         setTimeout(() => {
-            const texts = document.querySelectorAll('.link-name, .link-desc');
-            texts.forEach(text => {
-                const original = text.textContent;
-                text.textContent = '';
+            const textos = document.querySelectorAll('.nome-link, .desc-link');
+            textos.forEach(texto => {
+                const original = texto.textContent;
+                texto.textContent = '';
                 
                 let i = 0;
-                const typeWriter = () => {
+                const escrever = () => {
                     if (i < original.length) {
-                        text.textContent += original.charAt(i);
+                        texto.textContent += original.charAt(i);
                         i++;
-                        setTimeout(typeWriter, Math.random() * 30 + 20); // Mais rápido
+                        setTimeout(escrever, Math.random() * 30 + 20);
                     }
                 };
                 
-                setTimeout(typeWriter, Math.random() * 500 + 200);
+                setTimeout(escrever, Math.random() * 500 + 200);
             });
         }, 800);
         
-        // 12. Discord link otimizado
-        discordLink.addEventListener('click', function(e) {
+        linkDiscord.addEventListener('click', function(e) {
             e.preventDefault();
             navigator.clipboard.writeText("misoto_").then(() => {
-                const originalBg = this.style.backgroundColor;
+                const bgOriginal = this.style.backgroundColor;
                 this.style.backgroundColor = 'rgba(157, 0, 255, 0.1)';
-                this.style.borderColor = 'var(--main-purple)';
+                this.style.borderColor = 'var(--roxo)';
                 
                 setTimeout(() => {
-                    this.style.backgroundColor = originalBg;
+                    this.style.backgroundColor = bgOriginal;
                     this.style.borderColor = '';
                 }, 800);
             }).catch(() => {
-                // Fallback para navegadores antigos
                 prompt('Copie o username do Discord:', "misoto_");
             });
         });
         
-        // 13. Clique no overlay para iniciar
-        startOverlay.addEventListener('click', startEverything);
-        startOverlay.addEventListener('keypress', (e) => {
+        inicio.addEventListener('click', iniciarTudo);
+        inicio.addEventListener('keypress', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
-                startEverything();
+                iniciarTudo();
             }
         });
         
-        // 14. Ajuste de performance no resize
-        let resizeTimeout;
+        let timerResize;
         window.addEventListener('resize', () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
+            clearTimeout(timerResize);
+            timerResize = setTimeout(() => {
                 if (window.innerWidth <= 768) {
                     document.body.classList.add('mobile');
                 } else {
@@ -1368,27 +1252,20 @@
             }, 250);
         }, { passive: true });
         
-        // 15. Inicialização
-        updateVolumeIcon();
+        atualizarIconeVolume();
         
-        // Adicionar classe mobile se necessário
         if (window.innerWidth <= 768) {
             document.body.classList.add('mobile');
         }
         
-        // Monitorar estado da música para visualizer
-        music.addEventListener('play', updateVisualizer);
-        music.addEventListener('pause', updateVisualizer);
-        music.addEventListener('volumechange', updateVisualizer);
+        musica.addEventListener('play', atualizarVisual);
+        musica.addEventListener('pause', atualizarVisual);
+        musica.addEventListener('volumechange', atualizarVisual);
         
-        // Cleanup ao sair da página
         window.addEventListener('beforeunload', () => {
-            if (glitchTimer) clearInterval(glitchTimer);
-            music.pause();
+            if (timerGlitch) clearInterval(timerGlitch);
+            musica.pause();
         });
-        
-        console.log('Sistema otimizado carregado. Performance melhorada em:', 
-                   window.innerWidth <= 768 ? 'Mobile' : 'Desktop');
     </script>
 </body>
 </html>
